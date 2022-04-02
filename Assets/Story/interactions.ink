@@ -7,8 +7,10 @@ VAR conductor_state = (idle)
 VAR mechanic_state = (idle)
 
 // Object states
+// TODO Tbh, this should just be a boolean
 LIST fire_states = (burning), cold
 VAR fireplace_state = (burning)
+VAR items_in_fireplace = () // items being burned in fireplace
 
 // External functions to check whether an item is nearby
 //  Each object/npc should be addressed by a string
@@ -16,6 +18,13 @@ EXTERNAL nearby(obj_id)
 === function nearby(obj_id) ===
     // Standby for testing in standalone ink
     ~ return true
+
+// External function to add time to timer, e.g.
+//  when delaying train or adding evidence to fireplace
+EXTERNAL addTime(timer_id,seconds)
+=== function addTime(timer_id,seconds) ===
+ ~ return
+
 
 // Characters ---------------------------------------------------------------
 // Note: each character *may* have walk_away and awkward_silence stitch
@@ -27,15 +36,13 @@ EXTERNAL nearby(obj_id)
  - mechanic_state?distracted: -> mechanic.distracted_dialogue
  - else: -> mechanic.other
 }
--
--> main_loop
 = idle_dialogue
   Mechanic: What are you up to?
   + Nothing suspicious.
     Mechanic: That's an odd thing to say.
     ~mechanic_state = (suspicious)
   + Never mind.
-  + {has_wireless_schematics}Have you heard about Marconi's wireless telegraph?
+  + {inventory has wireless_schematics}Have you heard about Marconi's wireless telegraph?
     Mechanic: No, what's that?
     ++ Never mind, I bet you wouldn't understand anyways.
       Mechanic: What do you take me for, some sort of rube?
@@ -60,16 +67,23 @@ Mechanic: Give me a sec, these schematics are fascinating.
 // TODO Probably should be in a separate file
 
 === fireplace
+// Design decisions/simplifying assumptions
+//  - can burn an arbitrary amount of (flammable) evidence
+//  - each item of evidence increases timer by a set amount
 # INTERACT
 The fireplace is {fireplace_state?burning:lit|unlit}.
 + {fireplace_state?burning} [Put out the fire.]
-  ~ fireplace_state = (cold)
+  ~ fireplace_state = cold
   -> fireplace
 + {fireplace_state?cold} [Light the fire.]
-  ~ fireplace_state = (burning)
+  ~ fireplace_state = burning
+  -> fireplace
++ {fireplace_state == burning && hasIncriminatingEvidence()} [Burn some evidence.]
   -> fireplace
 + Exit -> main_loop
 - -> fireplace
+
+
 
 
 
