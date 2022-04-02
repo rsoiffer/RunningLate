@@ -1,10 +1,8 @@
 using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class InteractableTracker : MonoBehaviour
 {
-    public TextMeshProUGUI interactionText;
     private List<Interactable> interactables = new List<Interactable>();
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -25,13 +23,8 @@ public class InteractableTracker : MonoBehaviour
         }
     }
 
-    private void Update()
+    public Interactable GetInteractable()
     {
-        interactionText.text = "";
-        if (interactables.Count > 0)
-        {
-            var interactable = interactables[0];
-            interactionText.text = interactable.interactMessage;
-        }
+        return interactables.Count > 0 ? interactables[0] : null;
     }
 }
