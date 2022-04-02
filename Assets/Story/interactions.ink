@@ -18,13 +18,14 @@ EXTERNAL nearby(obj_id)
     ~ return true
 
 // Characters ---------------------------------------------------------------
+// Note: each character *may* have walk_away and awkward_silence stitch
 // TODO Probably should be in a separate file
 === mechanic ===
 # DIALOGUE
 {
  - mechanic_state?idle: -> mechanic.idle_dialogue
  - mechanic_state?distracted: -> mechanic.distracted_dialogue
-- else: -> mechanic.other
+ - else: -> mechanic.other
 }
 -
 -> main_loop
