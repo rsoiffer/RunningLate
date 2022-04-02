@@ -63,7 +63,7 @@ Mechanic: Give me a sec, these schematics are fascinating.
       
       
       
-// Objects ------------------------------------------------------------------
+// Objects ---------------------------------------------------------
 // TODO Probably should be in a separate file
 
 === fireplace
@@ -71,18 +71,38 @@ Mechanic: Give me a sec, these schematics are fascinating.
 //  - can burn an arbitrary amount of (flammable) evidence
 //  - each item of evidence increases timer by a set amount
 # INTERACT
-The fireplace is {fireplace_state?burning:lit|unlit}.
+The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
+<- toggle_fire_state
+<- burn_options(flammableItems())
++ Exit -> main_loop
+-> DONE
+
+= toggle_fire_state
 + {fireplace_state?burning} [Put out the fire.]
   ~ fireplace_state = cold
   -> fireplace
 + {fireplace_state?cold} [Light the fire.]
   ~ fireplace_state = burning
   -> fireplace
-+ {fireplace_state == burning && hasIncriminatingEvidence()} [Burn some evidence.]
-  -> fireplace
-+ Exit -> main_loop
-- -> fireplace
+-> DONE
 
+= burn_options(flammables)
+// Produce list of options for burning items, if applicable
+{fireplace_state?cold: -> DONE}
+{LIST_MIN(flammables):
+ ~ temp item_to_burn = LIST_MIN(flammables)
+ <- burn_options(flammables - item_to_burn)
+ + [Burn {item_to_burn}]
+   -> burn_item(item_to_burn)
+ -> DONE
+-else:
+ -> DONE
+}
+
+= burn_item(item_to_burn)
+The fire crackles as you toss in the {item_to_burn}.
+~burnEvidence(item_to_burn)
+-> fireplace
 
 
 
