@@ -1,5 +1,6 @@
 INCLUDE inventory.ink
 INCLUDE interactions.ink
+INCLUDE API.ink
 
 -> prologue
 
@@ -17,10 +18,14 @@ MAIN LOOP
 Can clean: {canCleanBlood()}
 Has incriminating evidence: {hasIncriminatingEvidence()}
 Pick an option:
-+ {nearby("mechanic")} [INTERACT("mechanic")]
-    -> mechanic
-+ {nearby("fireplace")} [INTERACT("fireplace")]
-    -> fireplace
++ [INTERACT("mechanic")] -> mechanic
++ [INTERACT("fireplace")] -> fireplace
++ [INTERACT("sink")] -> sink
++ [INTERACT("oven")] -> oven
++ [INTERACT("plant")] -> plant
++ [INTERACT("drawer")] -> drawer
++ [NPC_OBSERVE("plant")] -> plant.observed
++ [NPC_OBSERVE("oven")] -> oven.observed
 -> main_loop
 
 
