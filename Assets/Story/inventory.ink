@@ -1,12 +1,12 @@
 // List of all possible items
-LIST items = knife, letter, wireless_schematics, mop, cloth, handkerchief
+LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook
 // Some possible properties of items
 VAR incriminating = (knife, letter)
 VAR can_clean = (mop, cloth, handkerchief) // Can also get bloody
-VAR flammable = (letter, wireless_schematics, mop, cloth)
+VAR flammable = (letter, strange_schematics, mop, cloth)
 
 // Currently in player inventory
-VAR inventory = (knife, letter, wireless_schematics, handkerchief)
+VAR inventory = (knife, letter, strange_schematics, handkerchief)
 VAR bloody = () // Nothing is bloody to start with
 
 // Status effects?
@@ -44,3 +44,6 @@ VAR drunk = false
  ~ inventory -= item
  ~ items_in_fireplace += item
  ~ addTime("fireplace",60)
+ 
+=== function listObjectives() ===
+ ~ return "Insert list of objectives."
