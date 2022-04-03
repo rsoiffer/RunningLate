@@ -5,8 +5,9 @@ INCLUDE API.ink
 -> prologue
 
 === prologue
-#DIALOGUE
-INSERT PROLOGUE TEXT OF SOME SORT.
+You are Augustin DuPont, the world-famous thief.
+You find yourself aboard the Trans-Siberian Railway, where secret plans for an innovative airship are being transported to Vladivostok under lock and key.
+A secretive patron has promised to pay you handsomely for these plans.
 * [Continue...]
   -> main_loop
 
@@ -14,10 +15,12 @@ INSERT PROLOGUE TEXT OF SOME SORT.
 # MENU
 // TODO List all possible object interactions here.
 // Note: this should not be displayed to player, since we are in "menu mode"
-MAIN LOOP
-Can clean: {canCleanBlood()}
-Has incriminating evidence: {hasIncriminatingEvidence()}
+//MAIN LOOP
+//Can clean: {canCleanBlood()}
+//Has incriminating evidence: {hasIncriminatingEvidence()}
 Pick an option:
++ [INTERACT("safe")] -> safe
++ [INTERACT("guard")] -> guard
 + [INTERACT("mechanic")] -> mechanic
 + [INTERACT("fireplace")] -> fireplace
 + [INTERACT("sink")] -> sink
@@ -27,5 +30,7 @@ Pick an option:
 -> main_loop
 
 
+=== game_over ===
+TODO INSERT SOME GAME OVER NARRATION / WIN CONDITION / LOSE CONDITION
 
 -> END

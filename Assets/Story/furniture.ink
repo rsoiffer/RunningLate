@@ -6,8 +6,22 @@ VAR items_in_fireplace = () // items being burned in fireplace
 VAR gas_leak = false
 VAR plant_state = normal
 
-=== briefcase
--> main_loop
+=== safe
+ You're confident this safe should contain the airship plans you're looking for.
+  * [{exit}] -> main_loop
+  * [Crack the safe.]
+    The safe immediately clicks open, but you don't find the expected schematics inside.
+    Instead, there's a note resembling your own handwriting.
+    // TODO Sprite overlay
+    "Cower, simpletons! Your plans have been stolen by the great Augustin DuPont."
+    "The world will know and fear me!"
+    You didn't write this; someone is trying to set you up!
+    As you read the note, a guard wanders into the room.
+    {changeVisualState("guard","visible")}
+    ~ guard_state += panicked
+    Guard: You won't get away with this, scoundrel!
+    ->main_loop
+
 
 === fireplace
 // Design decisions/simplifying assumptions

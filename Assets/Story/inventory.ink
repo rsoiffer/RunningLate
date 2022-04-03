@@ -43,7 +43,6 @@ VAR drunk = false
 // Burn a piece of evidence
  ~ inventory -= item
  ~ items_in_fireplace += item
- ~ addTime("fireplace",60)
  
 === function listObjectives() ===
  ~ return "Insert list of objectives."
