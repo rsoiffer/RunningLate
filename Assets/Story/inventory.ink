@@ -71,6 +71,7 @@ VAR drunk = false
  ~ return LIST_COUNT(inventory ^ (incriminating + bloody)) > 0
 
 === function canStartFire() ===
+// Return true if player currently has the ability to start a fire.
  ~ return LIST_COUNT(inventory ^ firestarters) > 0
 
 === function flammableItems() ===
@@ -82,5 +83,3 @@ VAR drunk = false
  ~ inventory -= item
  ~ items_in_fireplace += item
  
-=== function listObjectives() ===
- ~ return "Insert list of objectives."

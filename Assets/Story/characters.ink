@@ -10,11 +10,10 @@ VAR npc_hidden = (_guard)
 
 
 === guard ===
+-> check_chloroformed(_guard) ->
 {
 - npc_hidden?_guard:
   -> main_loop
-- chloroformed?_guard:
-  The guard is unconscious. -> main_loop
 - panicked?_guard:
   Guard: You'll never get away with this, scoundrel!
   * [Chloroform him!]
@@ -34,10 +33,9 @@ VAR npc_hidden = (_guard)
 
 CONST mechanic_name =  "Jimmy"
 === mechanic ===
+-> check_chloroformed(_mechanic) ->
 # DIALOGUE
 {
- - chloroformed?_mechanic:
-   The mechanic is unconscious.
  - panicked?_mechanic:
    Mechanic: {shuffle: You're a menace to everyone on this train.|They'll put you away for a long time.|You picked the wrong train to screw with, buddy.}
  - idle?_mechanic: -> mechanic.idle_dialogue ->
@@ -59,7 +57,6 @@ CONST mechanic_name =  "Jimmy"
   + You: Goodbye.
 -
 ->->
-
 = long_discussion
 * You: Seems like a hard job.
     Mechanic: For other people, maybe, but not for ol' {mechanic_name}.  Trust me, I know how this train works inside and out.
@@ -111,6 +108,7 @@ CONST mechanic_name =  "Jimmy"
 ->->
 
 === inventor ===
+-> check_chloroformed(_inventor) ->
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
  * [Pick pockets]
    You pick the inventor's pockets...
@@ -121,6 +119,7 @@ Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Tr
    -> main_loop
 
 === hunter ===
+-> check_chloroformed(_hunter) ->
 Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia is teeming with beautiful animals to shoot.}
 + You: Goodbye.
   -> main_loop
@@ -133,18 +132,26 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 -> main_loop
 
 === magnate ===
+-> check_chloroformed(_magnate) ->
 Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
 -> main_loop
 
 === novelist ===
+-> check_chloroformed(_novelist) ->
 Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.}
 -> main_loop
 
 === student ===
+-> check_chloroformed(_student) ->
 Student: {shuffle:I'm going to change the world some day!|I should be studying for the bar exam.|I had that dream about the unexpected final exam again.}
 -> main_loop
 
-
+=== check_chloroformed(character) ===
+{chloroformed?character:
+  It seems {name(character)} is unconscious.
+  -> main_loop
+}
+->->
 
 
 

@@ -15,6 +15,7 @@ A secretive patron has promised to pay you handsomely for these plans.
 # MENU
 // Note: this should not be displayed to player, since we are in "menu mode"
 //Can clean: {canCleanBlood()}
+menu
 {"Inventory: " + prettyPrintInventory()}
 {"Objectives: " + prettyPrintObjectives()}
 Available interactions:
