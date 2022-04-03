@@ -8,7 +8,7 @@ VAR plant_state = normal
 
 VAR safe_opened = false
 === safe
- You're confident this safe should contain the airship plans you're looking for.
+ This safe should contain the airship plans you're looking for.
   * [{exit}] -> main_loop
   * [Crack the safe.]
     ~ safe_opened = true
@@ -19,9 +19,10 @@ VAR safe_opened = false
     "Cower, simpletons! Your plans have been stolen by the great Augustin DuPont."
     "The world will know and fear me!"
     You didn't write this; someone is trying to set you up!
-    As you read the note, a guard wanders into the room.
+    As you read the note, a guard walks into the room.
     {changeVisualState("guard","visible")}
     ~ panicked += _guard
+    ~ npc_hidden -= _guard
     Guard: You won't get away with this, scoundrel!
     ->main_loop
 

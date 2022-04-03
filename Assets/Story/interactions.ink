@@ -18,7 +18,12 @@ EXTERNAL nearby(obj_id)
 // Consistent text for "exit" option, where relevant.
 CONST exit = "(go back)"
 
-
+=== function chloroformWrapper(npc_id,npc_list_item) ===
+    ~ chloroformNPC(npc_id)
+    ~ chloroformed += npc_list_item
+    ~ panicked -= npc_list_item
+    ~ suspicious -= npc_list_item
+    ~ return "You chloroform " + name(npc_list_item) + "." 
 
       
       

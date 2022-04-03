@@ -11,22 +11,29 @@ VAR panicked = ()
 VAR busy = ()
 VAR idle = (_mechanic)
 VAR distracted = ()
+VAR npc_hidden = (_guard)
 
-
-VAR guard_state = ()
+VAR guard_visible = false
 === guard ===
-Guard: You'll never get away with this, scoundrel!
-* [Chloroform him!]
-  ~ chloroformNPC("guard")
-  ~ chloroformed += _guard
-  ~ panicked -= _guard
-  ~ suspicious -= _guard
-  When he wakes up he won't remember a thing.
-  However, if he's still unconscious when the train arrives you'll have a major problem on your hands.
-  You'll have to delay the train somehow.
+{
+- npc_hidden?_guard:
   -> main_loop
--
--> main_loop
+- chloroformed?_guard:
+  The guard is unconscious. -> main_loop
+- panicked?_guard:
+  Guard: You'll never get away with this, scoundrel!
+  * [Chloroform him!]
+    {chloroformWrapper("guard",_guard)}
+    When he wakes up he won't remember a thing.
+    However, if he's still unconscious when the train arrives you'll have a major problem on your hands.
+    You'll have to delay the train somehow.
+    -> main_loop
+- else:
+  Guard: You seem familiar. Have we met?
+  + You: I don't think so.
+    Guard: Sorry, I'm feeling a bit groggy today.
+    -> main_loop
+}
 
 
 
