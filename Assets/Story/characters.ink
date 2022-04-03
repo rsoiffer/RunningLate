@@ -1,4 +1,4 @@
-LIST characters = _guard, _mechanic
+LIST characters = _guard, _mechanic, _magnate, _novelist, _student, _hunter, _inventor
 
 // Possible status effects
 VAR chloroformed = ()
@@ -109,6 +109,41 @@ CONST mechanic_name =  "Jimmy"
 = other
  Mechanic: Enjoy your trip.
 ->->
+
+=== inventor ===
+Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
+ * [Pick pockets]
+   You pick the inventor's pockets...
+   ...and find the airship plans you were looking for!
+   Maybe this job is salvageable after all.
+   -> main_loop
+ + You: Goodbye.
+   -> main_loop
+
+=== hunter ===
+Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia is teeming with beautiful animals to shoot.}
++ You: Goodbye.
+  -> main_loop
+= conversation
+ * You: That's terrible!
+   Hunter: What are you talking about?
+   Hunter: If I don't kill the MegaRhinos then who will?
+   ** You: Sorry, I thought you meant... never mind.
+   -> main_loop
+-> main_loop
+
+=== magnate ===
+Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
+-> main_loop
+
+=== novelist ===
+Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.}
+-> main_loop
+
+=== student ===
+Student: {shuffle:I'm going to change the world some day!|I should be studying for the bar exam.|I had that dream about the unexpected final exam again.}
+-> main_loop
+
 
 
 

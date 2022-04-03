@@ -1,12 +1,11 @@
 // Engine calls to ink ------------------------------------------------
 
 === function prettyPrintInventory() ===
-// TODO Implement
  ~ return listToStr(inventory,"",";","")
  
 === function prettyPrintObjectives() ===
- {not safe_opened: 
-  ~ return "Steal the airship plans."
+{not safe_opened: 
+ ~ return "Steal the airship plans."
 - else:
  ~ temp burn_objectives = listToStr(inventory ^ incriminating,"Burn the ",";",".")
  ~ temp chloro_objectives = listToStr(chloroformed,"Delay the train until ",";"," wakes up.")
@@ -18,7 +17,13 @@
 
 === function characterAwakes(npc_id) ===
 // No return value, just sets state in Ink
- ~ return
+{npc_id:
+ -"guard":
+   ~chloroformed -= _guard
+ -"mechanic":
+   ~chloroformed -= _mechanic
+}
+~ return
 
 // Ink calls to Engine ------------------------------------------------
 

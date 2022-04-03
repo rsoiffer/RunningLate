@@ -42,7 +42,7 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
 + {fireplace_state == burning} [Put out the fire.]
   ~ fireplace_state = normal
   -> fireplace
-+ {fireplace_state == normal} [Light the fire.]
++ {fireplace_state == normal  and canStartFire()} [Light the fire.]
   ~ fireplace_state = burning
   -> fireplace
 -> DONE
@@ -59,7 +59,7 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
  -> DONE
 }
 = burn_item(item_to_burn)
-The fire crackles as you toss in the {name(item_to_burn)}.
+The fire flares up momentarily as you toss in the {name(item_to_burn)}.
 ~burnEvidence(item_to_burn)
 -> fireplace
 
@@ -92,9 +92,10 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
 {plant_state:
 - normal: 
   This is a decorative plant of some sort.  You could probably set it on fire{inventory has matchbook:.|, if you had a match.}
-  + {inventory has matchbook}[Set it on fire.]
+  + {canStartFire()}[Set it on fire.]
     The plant catches fire easily.
     ~ plant_state = burning
+    //~ incriminating += firestarters
     -> main_loop
   + [{exit}] -> main_loop
 - burning: The plant is on fire. -> main_loop

@@ -1,5 +1,5 @@
 // List of all possible items
-LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform
+LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform, airship_plans,lighter
 
 === function name(item) ===
   {item:
@@ -11,16 +11,24 @@ LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchb
     - matchbook: ~return "matchbook"
     - handkerchief: ~return "handkerchief"
     - chloroform: ~return "chloroform"
+    - airship_plans: ~return "the airship schematics"
+    - lighter: ~return "cigarette lighter"
     // Same function also used for characters, terrible hack (sorry)
     - _guard: ~return "the guard"
     - _mechanic: ~return "the mechanic"
+    - _inventor: ~return "the inventor"
+    - _hunter: ~return "the big hame hunter"
+    - _novelist: ~return "the novelist"
+    - _student: ~return "the law student"
+    - _magnate: ~return "the oil magnate"
   }
   ~return ""
 
 // Some possible properties of items
-VAR incriminating = (knife, letter)
+VAR incriminating = (letter)
 VAR can_clean = (mop, cloth, handkerchief) // Can also get bloody
-VAR flammable = (letter, strange_schematics, mop, cloth)
+VAR flammable = (letter, matchbook, strange_schematics, mop, cloth)
+VAR firestarters = (matchbook,lighter)
 
 // Currently in player inventory
 VAR inventory = (handkerchief, chloroform)
@@ -60,6 +68,9 @@ VAR drunk = false
 === function hasIncriminatingEvidence() ===
 // Return true if player has any incriminating evidence on them.
  ~ return LIST_COUNT(inventory ^ (incriminating + bloody)) > 0
+
+=== function canStartFire() ===
+ ~ return LIST_COUNT(inventory ^ firestarters) > 0
 
 === function flammableItems() ===
 // List of all flammable & incriminating evidence in inventory
