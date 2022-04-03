@@ -1,27 +1,28 @@
-﻿using Ink.Runtime;
+﻿using System.Collections.Generic;
+using Ink.Runtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InkManager : MonoBehaviour
 {
     public TextAsset inkAsset;
     public InteractableTracker interactableTracker;
-
-    public TextMeshProUGUI nearbyTextUI;
-    public Transform dialoguePanelUI;
+    public Transform dialogueLayout;
     public TextMeshProUGUI dialogueTextUI;
+    public Button dialogueButtonPrefab;
 
     private Story inkStory;
     private string currentKnot;
     private string dialogueHistory;
-    private Camera mainCamera;
+    private List<Button> dialogueButtons = new List<Button>();
+    private int nextChoice = -1;
 
     private void Start()
     {
         inkStory = new Story(inkAsset.text);
-        inkStory.BindExternalFunction("nearby", (string id) => true);
-
-        mainCamera = Camera.main;
+        inkStory.BindExternalFunction("nearby", (string obj_id) => true);
+        inkStory.BindExternalFunction("addTime", (string timer_id, string seconds) => true);
     }
 
     private void Update()
@@ -39,6 +40,24 @@ public class InkManager : MonoBehaviour
         }
 
         dialogueHistory += inkStory.currentText;
+
+        foreach (var button in dialogueButtons)
+        {
+            Destroy(button.gameObject);
+        }
+        dialogueButtons.Clear();
+
+        for (int i = 0; i < inkStory.currentChoices.Count; i++)
+        {
+            var button = Instantiate(dialogueButtonPrefab, dialogueLayout);
+            dialogueButtons.Add(button);
+
+            var choiceIndex = i + 1;
+            button.onClick.AddListener(() => nextChoice = choiceIndex);
+
+            var buttonText = button.GetComponentInChildren<Text>();
+            buttonText.text = "(" + choiceIndex + ") " + inkStory.currentChoices[i].text;
+        }
     }
 
     private void StepInk()
@@ -70,7 +89,6 @@ public class InkManager : MonoBehaviour
 
             if (inkStory.canContinue)
             {
-                Debug.Log(inkStory.state.currentPathString);
                 if (inkStory.state.currentPathString.Contains("main_loop"))
                 {
                     currentKnot = null;
@@ -80,29 +98,34 @@ public class InkManager : MonoBehaviour
 
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                if (inkStory.currentChoices.Count >= 1)
-                {
-                    inkStory.ChooseChoiceIndex(0);
-                    ContinueAndLogDialogue();
-                }
+                nextChoice = 1;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha2))
             {
-                if (inkStory.currentChoices.Count >= 2)
-                {
-                    inkStory.ChooseChoiceIndex(1);
-                    ContinueAndLogDialogue();
-                }
+                nextChoice = 2;
             }
 
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                if (inkStory.currentChoices.Count >= 3)
-                {
-                    inkStory.ChooseChoiceIndex(2);
-                    ContinueAndLogDialogue();
-                }
+                nextChoice = 3;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha4))
+            {
+                nextChoice = 4;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha5))
+            {
+                nextChoice = 5;
+            }
+
+            if (nextChoice > 0 && inkStory.currentChoices.Count >= nextChoice)
+            {
+                inkStory.ChooseChoiceIndex(nextChoice - 1);
+                nextChoice = 0;
+                ContinueAndLogDialogue();
             }
         }
     }
@@ -111,35 +134,19 @@ public class InkManager : MonoBehaviour
     {
         if (currentKnot == null)
         {
-            nearbyTextUI.gameObject.SetActive(true);
-            dialoguePanelUI.gameObject.SetActive(false);
-
             var interactable = interactableTracker.GetInteractable();
             if (interactable != null)
             {
-                nearbyTextUI.text = "Press E to interact with " + interactable.inkName;
+                dialogueTextUI.text = "Press E to interact with " + interactable.inkName;
             }
             else
             {
-                nearbyTextUI.text = "[no interaction available]";
+                dialogueTextUI.text = "";
             }
         }
         else
         {
-            nearbyTextUI.gameObject.SetActive(false);
-            dialoguePanelUI.gameObject.SetActive(true);
-            dialoguePanelUI.transform.position = mainCamera.WorldToScreenPoint(
-                interactableTracker.transform.position + Vector3.up);
-
             dialogueTextUI.text = dialogueHistory;
-            if (inkStory.currentChoices.Count > 0)
-            {
-                for (int i = 0; i < inkStory.currentChoices.Count; ++i)
-                {
-                    var choice = inkStory.currentChoices[i];
-                    dialogueTextUI.text += "\nChoice " + (i + 1) + ". " + choice.text;
-                }
-            }
         }
     }
 }

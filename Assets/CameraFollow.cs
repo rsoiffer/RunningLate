@@ -3,11 +3,14 @@ using UnityEngine;
 public class CameraFollow : MonoBehaviour
 {
     public Transform toFollow;
-    public float followRate = 0.1f;
+    public float followRateX = 0.1f;
+    public float followRateY = 0.1f;
 
     private void FixedUpdate()
     {
-        var newPosition = Vector2.Lerp(transform.position, toFollow.position, followRate);
-        transform.position = new Vector3(newPosition.x, newPosition.y, transform.position.z);
+        transform.position = new Vector3(
+            Mathf.Lerp(transform.position.x, toFollow.position.x, followRateX),
+            Mathf.Lerp(transform.position.y, toFollow.position.y, followRateY),
+            transform.position.z);
     }
 }
