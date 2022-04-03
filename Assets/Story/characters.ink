@@ -1,26 +1,31 @@
 // States (should be disjoint)
 //LIST states = idle, suspicious, panicked, seek_target, distracted
 
-LIST AI_flags = distracted, suspicious, panicked, seek_target, busy, idle
+//LIST AI_flags = distracted, suspicious, panicked, seek_target, busy, idle
 LIST characters = _guard, _mechanic
-VAR chloroformed = ()
 
-// Individual character states
-//  Character id is equal to everything before _state
-VAR conductor_flags = (idle)
-VAR mechanic_state = (idle)
+// Possible status effects
+VAR chloroformed = ()
+VAR suspicious = ()
+VAR panicked = ()
+VAR busy = ()
+VAR idle = (_mechanic)
+VAR distracted = ()
 
 
 VAR guard_state = ()
 === guard ===
-// Visual states are: "invisible" (default), "visible"
 Guard: You'll never get away with this, scoundrel!
 * [Chloroform him!]
   ~ chloroformNPC("guard")
   ~ chloroformed += _guard
+  ~ panicked -= _guard
+  ~ suspicious -= _guard
   When he wakes up he won't remember a thing.
   However, if he's still unconscious when the train arrives you'll have a major problem on your hands.
   You'll have to delay the train somehow.
+  -> main_loop
+-
 -> main_loop
 
 
@@ -31,9 +36,9 @@ CONST mechanic_name =  "Tim"
 === mechanic ===
 # DIALOGUE
 {
- - LIST_COUNT(mechanic_state)==0: -> mechanic.idle_dialogue ->
- - mechanic_state?distracted: -> mechanic.distracted_dialogue ->
- - mechanic_state?suspicious: -> mechanic.suspicious_dialogue ->
+ - idle?_mechanic: -> mechanic.idle_dialogue ->
+ - distracted?_mechanic: -> mechanic.distracted_dialogue ->
+ - suspicious?_mechanic: -> mechanic.suspicious_dialogue ->
  - else: -> mechanic.other ->
 }
 -> main_loop
@@ -69,7 +74,7 @@ CONST mechanic_name =  "Tim"
   Mechanic: I'll have you know I'm a highly educated guy.
   ++ You: Well, then, what do you make of these schematics?
     Mechanic: Hm, give me a second to take a look at that.
-    ~mechanic_state = (distracted)
+    ~ distracted += _mechanic
 + You: It's a telegraph that works without a wire.  Uses invisible light or something.
   Mechanic: Sounds like nonsense.
 -

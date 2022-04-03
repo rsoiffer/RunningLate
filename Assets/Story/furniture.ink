@@ -21,7 +21,7 @@ VAR safe_opened = false
     You didn't write this; someone is trying to set you up!
     As you read the note, a guard wanders into the room.
     {changeVisualState("guard","visible")}
-    ~ guard_state += panicked
+    ~ panicked += _guard
     Guard: You won't get away with this, scoundrel!
     ->main_loop
 
@@ -50,14 +50,14 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
 {LIST_MIN(flammables):
  ~ temp item_to_burn = LIST_MIN(flammables)
  <- burn_options(flammables - item_to_burn)
- + [Burn {item_to_burn}]
+ + [Burn the {name(item_to_burn)}]
    -> burn_item(item_to_burn)
  -> DONE
 -else:
  -> DONE
 }
 = burn_item(item_to_burn)
-The fire crackles as you toss in the {item_to_burn}.
+The fire crackles as you toss in the {name(item_to_burn)}.
 ~burnEvidence(item_to_burn)
 -> fireplace
 

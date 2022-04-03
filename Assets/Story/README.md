@@ -3,7 +3,7 @@
 ## Characters
 
 guard
-visual states: invisible, visible
+visual states: invisible_nointeract, visible
 
 mechanic
 visual states: n/a

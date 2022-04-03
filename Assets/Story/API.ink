@@ -10,7 +10,9 @@
 - else:
  ~ temp burn_objectives = listToStr(inventory ^ incriminating,"Burn the ",";",".")
  ~ temp chloro_objectives = listToStr(chloroformed,"Delay the train until ",";"," wakes up.")
- ~ return burn_objectives + ";" + chloro_objectives
+ ~ temp sus_objectives = listToStr(panicked,"Chloroform ",";",".")
+ // TODO Also include list of suspicious people
+ ~ return burn_objectives + ";" + chloro_objectives + ";" + sus_objectives
 }
  
 
