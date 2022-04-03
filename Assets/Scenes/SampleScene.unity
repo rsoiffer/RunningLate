@@ -438,7 +438,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &214912840
 Transform:
   m_ObjectHideFlags: 0
@@ -466,7 +466,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: 50
-  jumpDistance: 204.8
+  jumpDistance: 102.4
 --- !u!212 &214912842
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -749,6 +749,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   remainingSeconds: 300
   timerTextUI: {fileID: 1125948746}
+  maxSpeed: 50
+  trainAccel: 5
+  scrollingBackgrounds:
+  - {fileID: 1589648071}
+  - {fileID: 214912841}
   timerPauseCountdown: 0
 --- !u!4 &322716417
 Transform:
@@ -1679,6 +1684,7 @@ MonoBehaviour:
   followRateY: 0.1
   noiseX: 0.003
   noiseY: 0.003
+  noiseRatio: 1
 --- !u!1 &581827820
 GameObject:
   m_ObjectHideFlags: 0
@@ -4159,7 +4165,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   scrollSpeed: 50
-  jumpDistance: 204.8
+  jumpDistance: 51.2
 --- !u!1 &1590280012
 GameObject:
   m_ObjectHideFlags: 0
