@@ -1,7 +1,3 @@
-// States (should be disjoint)
-//LIST states = idle, suspicious, panicked, seek_target, distracted
-
-//LIST AI_flags = distracted, suspicious, panicked, seek_target, busy, idle
 LIST characters = _guard, _mechanic
 
 // Possible status effects
@@ -10,10 +6,9 @@ VAR suspicious = ()
 VAR panicked = ()
 VAR busy = ()
 VAR idle = (_mechanic)
-VAR distracted = ()
 VAR npc_hidden = (_guard)
 
-VAR guard_visible = false
+
 === guard ===
 {
 - npc_hidden?_guard:
@@ -37,26 +32,31 @@ VAR guard_visible = false
 
 
 
-
-
-CONST mechanic_name =  "Tim"
+CONST mechanic_name =  "Jimmy"
 === mechanic ===
 # DIALOGUE
 {
+ - chloroformed?_mechanic:
+   The mechanic is unconscious.
+ - panicked?_mechanic:
+   Mechanic: {shuffle: You're a menace to everyone on this train.|They'll put you away for a long time.|You picked the wrong train to screw with, buddy.}
  - idle?_mechanic: -> mechanic.idle_dialogue ->
- - distracted?_mechanic: -> mechanic.distracted_dialogue ->
- - suspicious?_mechanic: -> mechanic.suspicious_dialogue ->
  - else: -> mechanic.other ->
 }
 -> main_loop
 = idle_dialogue
-  Mechanic: {I hope you're enjoying the trip.|Oh, you again.|What is it this time?}
+  Mechanic: {suspicious?_mechanic:{shuffle: I'm not sure what your deal is, but I'm keeping an eye on you!|Just what are you up to, exactly? Don't answer that.|Why do you keep bothering me?}|{I hope you're enjoying the trip.|Oh, you again.|What is it this time?}}
   + You: Who are you, if you don't mind me asking?
-    Mechanic: {I'm {mechanic_name}, the mechanic.  I'm here to keep the train running safely.->long_discussion|I'm {mechanic_name}, the mechanic. I told you this already.->->|I feel like we've been over this already.->->|You must have the memory of a goldfish.->->}
-  + You: {inventory has strange_schematics}Have you heard about Marconi's wireless telegraph?
-    Mechanic: No, what's that?
-    -> attempt_to_distract
-  + You: Never mind, sorry to bother you.
+    Mechanic: {I'm {mechanic_name}, the mechanic.  I'm here to keep the train running safely.->long_discussion|I'm {mechanic_name}, the mechanic. I told you this already.->->|I feel like we've been over this already.->->|You have the memory of a goldfish.->->}
+  * {gas_leak} You: I think there's a gas leak in the galley.
+    Mechanic: Oh shit, that's not good.
+    Mechanic: {trainIsMoving():STOP THE TRAIN IMMEDIATELY.|We're gonna be delayed a while longer.}
+    -> handle_accident ->
+  * {plant_state == burning} You: I think there's a fire on board the train.
+    Mechanic: Oh dear. There is, isn't there.
+    Mechanic: STOP THE TRAIN.
+    -> handle_accident ->
+  + You: Goodbye.
 -
 ->->
 
@@ -68,30 +68,49 @@ CONST mechanic_name =  "Tim"
     ** Oh, you know, a bit of this, a bit of that.
        Mechanic: So you're unemployed.
        *** You: No!
-       *** You: I guess.
-         Then how did you afford a ticket
+           Mechanic: So what do you do?
+           **** You: I can't exactly say.
+                Mechanic: What are you going on about?
+                Mechanic: Never mind, don't answer that.
+                ~suspicious += _mechanic
+           **** You: I'm a world-famous thief.
+                Mechanic: Sure you are.  Quit wasting my time. 
+       *** You: I guess so.
+         Mechanic: Then how did you afford a ticket?
+         **** You: To be honest, I rarely have to worry about how much things cost.
+              Mechanic: Oh, I see.  You were born into money. You're a leech.
+              ***** You: That's not what I meant.
+                    Mechanic: What exactly did you mean, then?
+                    ****** You: You know what, forget it.
+                           Mechanic: Whatever you say, weirdo.
+                           ~suspicious += _mechanic
+              ***** You: Close enough, I guess.
+                    ****** Mechanic: I'll never understand your sort.
     ** You: I'm a businessman.
        Mechanic: What kind of business?
+       *** You: None of yours.
+           Mechanic: Fair enough.
 -
 ->->
-
-= attempt_to_distract
-+ You: Never mind, I bet you wouldn't understand anyways.
-  Mechanic: What do you take me for, some sort of rube?
-  Mechanic: I'll have you know I'm a highly educated guy.
-  ++ You: Well, then, what do you make of these schematics?
-    Mechanic: Hm, give me a second to take a look at that.
-    ~ distracted += _mechanic
-+ You: It's a telegraph that works without a wire.  Uses invisible light or something.
-  Mechanic: Sounds like nonsense.
--
-->->
-= distracted_dialogue
-Mechanic: Give me a sec, these schematics are fascinating.
-->->
-= suspicious_dialogue
- Mechanic: {shuffle: I'm not sure what your deal is, but I'm keeping an eye on you!|Just what are you up to, exactly? Don't answer that.|Why do you keep bothering me?}
+= handle_accident
+{delayTrain(60,"Conductor: Everything seems to be under control. Let's get moving again.")}
+{handle_accident > 1:
+ {suspicious?_mechanic:
+  Mechanic: You expect me to believe that a shady guy like you just happened to come across two unrelated accidents?
+  Mechanic: On MY train?
+  Mechanic: You're behind this, I know it!
+  ~panicked += _mechanic
+ -else:
+  Mechanic: It's weird that this keeps happening to you specifically, right?
+  ~suspicious += _mechanic
+ }
+}
 ->->
 = other
  Mechanic: Enjoy your trip.
 ->->
+
+
+
+
+

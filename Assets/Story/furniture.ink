@@ -26,6 +26,7 @@ VAR safe_opened = false
     Guard: You won't get away with this, scoundrel!
     ->main_loop
 
+//TODO Probably should keep the door to the starting carriage closed until the guard enters.
 
 === fireplace
 // Design decisions/simplifying assumptions
@@ -67,7 +68,7 @@ The fire crackles as you toss in the {name(item_to_burn)}.
 // TODO Also able to sabotage the sink?
 You are looking at a small sink.
 + [Wash hands.]
-  Your hands are now clean (literally, though not metaphorically).
+  Your hands are now clean.
   ~bloody_hands = false
   -> main_loop
 + [{exit}] -> main_loop
@@ -79,7 +80,7 @@ You are looking at a small sink.
 This appears to be a small gas oven.
 * [Sabotage it!]
   ~ gas_leak = true
-  You sabotage the oven, creating a gas leak.  You'd better let the conductor know before something goes horribly wrong!!
+  You sabotage the oven, creating a gas leak.  You'd better let the mechanic know before something goes horribly wrong!
   -> main_loop
 + [{exit}] -> main_loop
 - else:

@@ -6,21 +6,18 @@ INCLUDE API.ink
 
 === prologue
 You are Augustin DuPont, the world-famous thief.
-You find yourself aboard the <i>Imperial Limited</i>, where secret plans for an innovative airship are being transported to Vancouver under lock and key.
+In the winter of 1932 you find yourself traveling in luxury aboard <i>The Imperial Limited</i>, where secret plans for an innovative hydrogen airship are being transported to Vancouver under lock and key.
 A secretive patron has promised to pay you handsomely for these plans.
 * [Continue...]
   -> main_loop
 
 === main_loop
 # MENU
-// TODO List all possible object interactions here.
 // Note: this should not be displayed to player, since we are in "menu mode"
-//MAIN LOOP
 //Can clean: {canCleanBlood()}
-//Has incriminating evidence: {hasIncriminatingEvidence()}
-{prettyPrintInventory()}
-{prettyPrintObjectives()}
-Pick an option:
+//{"Inventory: " + prettyPrintInventory()}
+{"Objectives: " + prettyPrintObjectives()}
+Available interactions:
 + [INTERACT("safe")] -> safe
 + [INTERACT("guard")] -> guard
 + [INTERACT("mechanic")] -> mechanic

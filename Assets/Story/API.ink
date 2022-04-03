@@ -35,3 +35,8 @@ EXTERNAL chloroformNPC(npc_id)
 EXTERNAL changeVisualState(obj_id, state_id)
 === function changeVisualState(obj_id, state_id) ===
  ~ return
+
+// Not yet discussed, but would be useful for me.
+EXTERNAL trainIsMoving()
+=== function trainIsMoving() ===
+ ~ return true

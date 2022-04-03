@@ -1,5 +1,5 @@
 // List of all possible items
-LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook
+LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform
 
 === function name(item) ===
   {item:
@@ -10,6 +10,7 @@ LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchb
     - mop: ~return "mop"
     - matchbook: ~return "matchbook"
     - handkerchief: ~return "handkerchief"
+    - chloroform: ~return "chloroform"
     // Same function also used for characters, terrible hack (sorry)
     - _guard: ~return "the guard"
     - _mechanic: ~return "the mechanic"
@@ -22,7 +23,7 @@ VAR can_clean = (mop, cloth, handkerchief) // Can also get bloody
 VAR flammable = (letter, strange_schematics, mop, cloth)
 
 // Currently in player inventory
-VAR inventory = (handkerchief)
+VAR inventory = (handkerchief, chloroform)
 VAR bloody = () // Nothing is bloody to start with
 
 // Status effects?
