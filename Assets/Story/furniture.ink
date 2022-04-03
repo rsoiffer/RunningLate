@@ -111,7 +111,7 @@ VAR table_has_nanaimo_bar = true
 // Not sure whether this belongs in the kitchen or the dining hall.
 // Probably doesn't matter.
 {table_has_nanaimo_bar:
-You see a Nanaimo bar on the table.
+You see a tasty-looking Nanaimo bar on the table.
  + [Take it.]
    You grab the Nanaimo bar.
    ~inventory += nanaimo_bar
