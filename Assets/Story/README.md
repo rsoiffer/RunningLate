@@ -3,12 +3,27 @@
 ## Characters
 
 guard
-visual states: invisible_nointeract, visible
+visual states: invisible_nointeract, visible, unconscious
 
 mechanic
-visual states: n/a
+visual states: normal,unconscious
 
-## Furniture
+novelist
+visual states: normal, unconscious
+
+magnate
+visual states: normal, unconscious
+
+inventor
+visual states: normal, unconscious
+
+student
+visual states: normal, unconscious
+
+hunter
+visual states: normal, unconscious
+
+## Interactable Furniture
 
 safe
 visual states: n/a
@@ -28,3 +43,6 @@ visual states: normal, burning, burnt
 
 drawer
 visual states: n/a
+
+table
+visual states: nanaimobar, empty

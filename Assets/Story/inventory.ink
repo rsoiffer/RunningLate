@@ -1,5 +1,5 @@
 // List of all possible items
-LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform, airship_plans,lighter
+LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform, airship_plans, lighter, nanaimo_bar
 
 === function name(item) ===
   {item:

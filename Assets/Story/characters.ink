@@ -50,11 +50,11 @@ CONST mechanic_name =  "Jimmy"
     Mechanic: {I'm {mechanic_name}, the mechanic.  I'm here to keep the train running safely.->long_discussion|I'm {mechanic_name}, the mechanic. I told you this already.->->|I feel like we've been over this already.->->|You have the memory of a goldfish.->->}
   * {gas_leak} You: I think there's a gas leak in the galley.
     Mechanic: Oh shit, that's not good.
-    Mechanic: {trainIsMoving():STOP THE TRAIN IMMEDIATELY.|We're gonna be delayed a while longer.}
+    Mechanic: {trainIsMoving():STOP THE TRAIN IMMEDIATELY.|We're gonna be delayed a while longer while we sort this out.}
     -> handle_accident ->
   * {plant_state == burning} You: I think there's a fire on board the train.
     Mechanic: Oh dear. There is, isn't there.
-    Mechanic: STOP THE TRAIN.
+    Mechanic: {trainIsMoving():STOP THE TRAIN.|We're gonna be delayed a while longer while we sort this out.}
     -> handle_accident ->
   + You: Goodbye.
 -

@@ -102,6 +102,24 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
 - burnt: You already burned this plant to a crisp. -> main_loop
 }
 
+VAR table_has_nanaimo_bar = true
+=== table ===
+// Not sure whether this belongs in the kitchen or the dining hall.
+// Probably doesn't matter.
+{table_has_nanaimo_bar:
+You see a Nanaimo bar on the table.
+ + [Take it.]
+   You grab the Nanaimo bar.
+   ~inventory += nanaimo_bar
+   ~table_has_nanaimo_bar = false
+   -> main_loop
+ + [Leave it.]
+   -> main_loop
+-else:
+ The table is empty.
+ -> main_loop
+}
+
 === drawer
 // Probably going to be placed in a sleeper car room, maybe?
 // TODO Generalize to allow multiple drawers without copy-pasting.
