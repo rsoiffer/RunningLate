@@ -15,7 +15,7 @@ A secretive patron has promised to pay you handsomely for these plans.
 # MENU
 // Note: this should not be displayed to player, since we are in "menu mode"
 //Can clean: {canCleanBlood()}
-//{"Inventory: " + prettyPrintInventory()}
+{"Inventory: " + prettyPrintInventory()}
 {"Objectives: " + prettyPrintObjectives()}
 Available interactions:
 + [INTERACT("safe")] -> safe
@@ -32,6 +32,7 @@ Available interactions:
 + [INTERACT("oven")] -> oven
 + [INTERACT("plant")] -> plant
 + [INTERACT("drawer")] -> drawer
++ [INTERACT("table")] -> table
 -> main_loop
 
 

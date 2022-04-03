@@ -13,6 +13,7 @@ LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchb
     - chloroform: ~return "chloroform"
     - airship_plans: ~return "the airship schematics"
     - lighter: ~return "cigarette lighter"
+    - nanaimo_bar: ~return "Nanaimo bar"
     // Same function also used for characters, terrible hack (sorry)
     - _guard: ~return "the guard"
     - _mechanic: ~return "the mechanic"
