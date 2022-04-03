@@ -10,7 +10,10 @@ public class InkManager : MonoBehaviour
     public InteractableTracker interactableTracker;
     public Button dialogueButtonPrefab;
     public float timeToAutoContinue = 5f;
-    
+
+    public TextMeshProUGUI objectivesTextUI;
+    public TextMeshProUGUI inventoryTextUI;
+
     public GameObject interactPanel;
     public TextMeshProUGUI interactTextUI;
 
@@ -19,6 +22,8 @@ public class InkManager : MonoBehaviour
     public TextMeshProUGUI dialogueTextUI;
 
     private Story inkStory;
+    private InkApi inkApi;
+
     private string currentKnot;
     private string dialogueHistory;
     private List<Button> dialogueButtons = new List<Button>();
@@ -28,8 +33,7 @@ public class InkManager : MonoBehaviour
     private void Start()
     {
         inkStory = new Story(inkAsset.text);
-        inkStory.BindExternalFunction("nearby", (string obj_id) => true);
-        inkStory.BindExternalFunction("addTime", (string timer_id, string seconds) => true);
+        inkApi = new InkApi(inkStory);
     }
 
     private void Update()
@@ -46,8 +50,10 @@ public class InkManager : MonoBehaviour
         {
             if (textSplits[0] == "You")
             {
-                return "<b><color=#8a8e48>" + textSplits[0] + "</color></b>  <color=#debf89>" + textSplits[1] + "</color>";
+                return "<b><color=#8a8e48>" + textSplits[0] + "</color></b>  <color=#debf89>" + textSplits[1] +
+                       "</color>";
             }
+
             return "<b><color=#a45f3e>" + textSplits[0] + "</color></b>  <color=#debf89>" + textSplits[1] + "</color>";
         }
 
@@ -56,17 +62,18 @@ public class InkManager : MonoBehaviour
 
     private void ContinueAndLogDialogue()
     {
-        inkStory.Continue();
-
-        currentTimeToAutoContinue += timeToAutoContinue;
-
-        if (dialogueHistory.Length > 0)
+        currentTimeToAutoContinue = timeToAutoContinue;
+        if (inkStory.canContinue)
         {
-            dialogueHistory += "\n";
+            inkStory.Continue();
+            dialogueHistory += "\n" + ParseText(inkStory.currentText);
         }
 
-        dialogueHistory += ParseText(inkStory.currentText);
+        UpdateDialogueButtons();
+    }
 
+    private void UpdateDialogueButtons()
+    {
         foreach (var button in dialogueButtons)
         {
             Destroy(button.gameObject);
@@ -96,8 +103,8 @@ public class InkManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    inkStory.ChoosePathString(interactable.inkName);
-                    currentKnot = interactable.inkName;
+                    inkStory.ChoosePathString(interactable.name);
+                    currentKnot = interactable.name;
                     dialogueHistory = "";
                     ContinueAndLogDialogue();
                     StepInk();
@@ -111,15 +118,6 @@ public class InkManager : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.Space) || currentTimeToAutoContinue < 0)
                 {
                     ContinueAndLogDialogue();
-                }
-            }
-
-            if (inkStory.canContinue)
-            {
-                if (inkStory.state.currentPathString.Contains("main_loop"))
-                {
-                    currentKnot = null;
-                    return;
                 }
             }
 
@@ -155,6 +153,12 @@ public class InkManager : MonoBehaviour
                 ContinueAndLogDialogue();
             }
         }
+
+        if (inkStory.canContinue && inkStory.state.currentPathString.Contains("main_loop")
+            || inkStory.currentChoices.Count > 0 && inkStory.currentChoices[0].text.Contains("INTERACT"))
+        {
+            currentKnot = null;
+        }
     }
 
     private void UpdateText()
@@ -166,12 +170,14 @@ public class InkManager : MonoBehaviour
             {
                 dialoguePanel.SetActive(false);
                 interactPanel.SetActive(true);
-                interactTextUI.text = "Press E to interact with " + interactable.inkName;
+                interactTextUI.text = "Press E to interact with " + interactable.name;
             }
             else
             {
                 dialoguePanel.SetActive(false);
                 interactPanel.SetActive(false);
+                objectivesTextUI.text = "<b>Objectives</b>\n" + inkApi.PrettyPrintObjectives();
+                inventoryTextUI.text = "<b>Inventory</b>\n" + inkApi.PrettyPrintInventory();
             }
         }
         else
