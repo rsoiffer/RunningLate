@@ -8,15 +8,22 @@ public class InkManager : MonoBehaviour
 {
     public TextAsset inkAsset;
     public InteractableTracker interactableTracker;
+    public Button dialogueButtonPrefab;
+    public float timeToAutoContinue = 5f;
+    
+    public GameObject interactPanel;
+    public TextMeshProUGUI interactTextUI;
+
+    public GameObject dialoguePanel;
     public Transform dialogueLayout;
     public TextMeshProUGUI dialogueTextUI;
-    public Button dialogueButtonPrefab;
 
     private Story inkStory;
     private string currentKnot;
     private string dialogueHistory;
     private List<Button> dialogueButtons = new List<Button>();
     private int nextChoice = -1;
+    private float currentTimeToAutoContinue;
 
     private void Start()
     {
@@ -27,24 +34,44 @@ public class InkManager : MonoBehaviour
 
     private void Update()
     {
+        currentTimeToAutoContinue -= Time.deltaTime;
         StepInk();
         UpdateText();
+    }
+
+    private string ParseText(string text)
+    {
+        var textSplits = text.Split(':');
+        if (textSplits.Length == 2)
+        {
+            if (textSplits[0] == "You")
+            {
+                return "<b><color=#8a8e48>" + textSplits[0] + "</color></b>  <color=#debf89>" + textSplits[1] + "</color>";
+            }
+            return "<b><color=#a45f3e>" + textSplits[0] + "</color></b>  <color=#debf89>" + textSplits[1] + "</color>";
+        }
+
+        return "<color=#debf89>" + text + "</color>";
     }
 
     private void ContinueAndLogDialogue()
     {
         inkStory.Continue();
+
+        currentTimeToAutoContinue += timeToAutoContinue;
+
         if (dialogueHistory.Length > 0)
         {
             dialogueHistory += "\n";
         }
 
-        dialogueHistory += inkStory.currentText;
+        dialogueHistory += ParseText(inkStory.currentText);
 
         foreach (var button in dialogueButtons)
         {
             Destroy(button.gameObject);
         }
+
         dialogueButtons.Clear();
 
         for (int i = 0; i < inkStory.currentChoices.Count; i++)
@@ -56,7 +83,7 @@ public class InkManager : MonoBehaviour
             button.onClick.AddListener(() => nextChoice = choiceIndex);
 
             var buttonText = button.GetComponentInChildren<Text>();
-            buttonText.text = "(" + choiceIndex + ") " + inkStory.currentChoices[i].text;
+            buttonText.text = "(" + choiceIndex + ") " + ParseText(inkStory.currentChoices[i].text);
         }
     }
 
@@ -81,7 +108,7 @@ public class InkManager : MonoBehaviour
         {
             if (inkStory.canContinue)
             {
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || currentTimeToAutoContinue < 0)
                 {
                     ContinueAndLogDialogue();
                 }
@@ -137,15 +164,20 @@ public class InkManager : MonoBehaviour
             var interactable = interactableTracker.GetInteractable();
             if (interactable != null)
             {
-                dialogueTextUI.text = "Press E to interact with " + interactable.inkName;
+                dialoguePanel.SetActive(false);
+                interactPanel.SetActive(true);
+                interactTextUI.text = "Press E to interact with " + interactable.inkName;
             }
             else
             {
-                dialogueTextUI.text = "";
+                dialoguePanel.SetActive(false);
+                interactPanel.SetActive(false);
             }
         }
         else
         {
+            dialoguePanel.SetActive(true);
+            interactPanel.SetActive(false);
             dialogueTextUI.text = dialogueHistory;
         }
     }
