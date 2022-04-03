@@ -2,10 +2,17 @@
 
 === function prettyPrintInventory() ===
 // TODO Implement
- ~ return "semicolon;separated;list;of;items"
+ ~ return listToStr(inventory,"",";","")
  
 === function prettyPrintObjectives() ===
- ~ return "semicolon;separated;list;of;objectives"
+ {not safe_opened: 
+  ~ return "Steal the airship plans."
+- else:
+ ~ temp burn_objectives = listToStr(inventory ^ incriminating,"Burn the ",";",".")
+ ~ temp chloro_objectives = listToStr(chloroformed,"Delay the train until ",";"," wakes up.")
+ ~ return burn_objectives + ";" + chloro_objectives
+}
+ 
 
 === function characterAwakes(npc_id) ===
 // No return value, just sets state in Ink

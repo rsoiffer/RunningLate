@@ -1,17 +1,42 @@
 // List of all possible items
 LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook
+
+=== function name(item) ===
+  {item:
+    - knife: ~return "knife"
+    - letter: ~return "incriminating note"
+    - strange_schematics: ~return "enigmatic schematics"
+    - cloth: ~return "washcloth"
+    - mop: ~return "mop"
+    - matchbook: ~return "matchbook"
+    - handkerchief: ~return "handkerchief"
+    // Same function also used for characters, terrible hack (sorry)
+    - _guard: ~return "the guard"
+    - _mechanic: ~return "the mechanic"
+  }
+  ~return ""
+
 // Some possible properties of items
 VAR incriminating = (knife, letter)
 VAR can_clean = (mop, cloth, handkerchief) // Can also get bloody
 VAR flammable = (letter, strange_schematics, mop, cloth)
 
 // Currently in player inventory
-VAR inventory = (knife, letter, strange_schematics, handkerchief)
+VAR inventory = (handkerchief)
 VAR bloody = () // Nothing is bloody to start with
 
 // Status effects?
 VAR bloody_hands = true
 VAR drunk = false
+
+=== function listToStr(list,prefix,infix,suffix) ===
+~ temp head = LIST_MIN(list)
+{LIST_COUNT(list):
+ - 0: ~ return ""
+ - 1: ~ return prefix + name(LIST_MIN(head)) + suffix
+ - else: ~ return prefix + name(LIST_MIN(head)) + suffix + infix + listToStr(list - LIST_MIN(head),prefix,infix,suffix)
+}
+
 
 
 // Cleaning-related stuff ---------------------------------------------

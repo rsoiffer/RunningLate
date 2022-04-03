@@ -6,12 +6,15 @@ VAR items_in_fireplace = () // items being burned in fireplace
 VAR gas_leak = false
 VAR plant_state = normal
 
+VAR safe_opened = false
 === safe
  You're confident this safe should contain the airship plans you're looking for.
   * [{exit}] -> main_loop
   * [Crack the safe.]
+    ~ safe_opened = true
     The safe immediately clicks open, but you don't find the expected schematics inside.
     Instead, there's a note resembling your own handwriting.
+    ~inventory += letter
     // TODO Sprite overlay
     "Cower, simpletons! Your plans have been stolen by the great Augustin DuPont."
     "The world will know and fear me!"

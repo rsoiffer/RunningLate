@@ -18,6 +18,8 @@ A secretive patron has promised to pay you handsomely for these plans.
 //MAIN LOOP
 //Can clean: {canCleanBlood()}
 //Has incriminating evidence: {hasIncriminatingEvidence()}
+{prettyPrintInventory()}
+{prettyPrintObjectives()}
 Pick an option:
 + [INTERACT("safe")] -> safe
 + [INTERACT("guard")] -> guard

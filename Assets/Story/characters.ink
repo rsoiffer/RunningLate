@@ -2,6 +2,8 @@
 //LIST states = idle, suspicious, panicked, seek_target, distracted
 
 LIST AI_flags = distracted, suspicious, panicked, seek_target, busy, idle
+LIST characters = _guard, _mechanic
+VAR chloroformed = ()
 
 // Individual character states
 //  Character id is equal to everything before _state
@@ -14,7 +16,8 @@ VAR guard_state = ()
 // Visual states are: "invisible" (default), "visible"
 Guard: You'll never get away with this, scoundrel!
 * [Chloroform him!]
-  {chloroformNPC("guard")}
+  ~ chloroformNPC("guard")
+  ~ chloroformed += _guard
   When he wakes up he won't remember a thing.
   However, if he's still unconscious when the train arrives you'll have a major problem on your hands.
   You'll have to delay the train somehow.
