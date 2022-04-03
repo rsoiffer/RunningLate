@@ -6,9 +6,8 @@ VAR items_in_fireplace = () // items being burned in fireplace
 VAR gas_leak = false
 VAR plant_state = normal
 
-// Note: objects may have an "observed" stitch, which should be called
-//  when the object is observed by an NPC?
-
+=== briefcase
+-> main_loop
 
 === fireplace
 // Design decisions/simplifying assumptions
@@ -19,7 +18,6 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
 <- toggle_fire_state
 <- burn_options(flammableItems())
 + [{exit}] -> main_loop
--> DONE
 
 = toggle_fire_state
 + {fireplace_state == burning} [Put out the fire.]
@@ -29,7 +27,6 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
   ~ fireplace_state = burning
   -> fireplace
 -> DONE
-
 = burn_options(flammables)
 // Produce list of options for burning items, if applicable
 {fireplace_state?normal: -> DONE}
@@ -42,14 +39,10 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
 -else:
  -> DONE
 }
-
 = burn_item(item_to_burn)
 The fire crackles as you toss in the {item_to_burn}.
 ~burnEvidence(item_to_burn)
 -> fireplace
-
-= observed
--> main_loop
 
 
 === sink
@@ -74,9 +67,6 @@ This appears to be a small gas oven.
 - else:
 The oven has been sabotaged.  You smell natural gas. -> main_loop
 }
-= observed
-{gas_leak:TODO This should stop the train, causing a delay.}
--> main_loop
 
 === plant
 //A decorative plant to set on fire, I guess?
@@ -91,9 +81,6 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
 - burning: The plant is on fire. -> main_loop
 - burnt: You already burned this plant to a crisp. -> main_loop
 }
-= observed
-{plant_state == burning:TODO This should stop the train, causing a delay.}
--> main_loop
 
 === drawer
 // Probably going to be placed in a sleeper car room, maybe?
@@ -104,8 +91,6 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
 -else:
   The drawer is empty.
 }
--> main_loop
-= observed
 -> main_loop
 
 

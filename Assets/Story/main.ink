@@ -24,8 +24,6 @@ Pick an option:
 + [INTERACT("oven")] -> oven
 + [INTERACT("plant")] -> plant
 + [INTERACT("drawer")] -> drawer
-+ [NPC_OBSERVE("plant")] -> plant.observed
-+ [NPC_OBSERVE("oven")] -> oven.observed
 -> main_loop
 
 
