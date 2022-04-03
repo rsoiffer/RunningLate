@@ -8,6 +8,10 @@ VAR plant_state = normal
 
 VAR safe_opened = false
 === safe
+{safe_opened: 
+  You already cracked this safe.  There's nothing inside. 
+ ->main_loop
+}
  This safe should contain the airship plans you're looking for.
   * [{exit}] -> main_loop
   * [Crack the safe.]
