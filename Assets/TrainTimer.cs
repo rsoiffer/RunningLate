@@ -1,12 +1,20 @@
+using System;
 using TMPro;
 using UnityEngine;
 
 public class TrainTimer : MonoBehaviour
 {
+    public static TrainTimer Instance;
+    
     public float remainingSeconds = 300;
     public TextMeshProUGUI timerTextUI;
 
     public float timerPauseCountdown = 0f;
+
+    private void Start()
+    {
+        Instance = this;
+    }
 
     private void Update()
     {
