@@ -23,6 +23,7 @@ CONST exit = "(go back)"
     ~ chloroformed += npc_list_item
     ~ panicked -= npc_list_item
     ~ suspicious -= npc_list_item
+    ~ changeVisualState(npc_id,"unconscious")
     ~ return "You knock out " + name(npc_list_item) + " with chloroform." 
 
       

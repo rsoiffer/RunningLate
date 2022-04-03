@@ -20,8 +20,10 @@
 {npc_id:
  -"guard":
    ~chloroformed -= _guard
+   ~changeVisualState(npc_id,"visible")
  -"mechanic":
    ~chloroformed -= _mechanic
+   ~changeVisualState(npc_id,"normal")
 }
 ~ return
 
