@@ -75,7 +75,7 @@ public class Interactable : MonoBehaviour
             InkApi.Instance.WakeCharacter(name);
         }
 
-        if (facePlayer)
+        if (facePlayer && visualState == "normal")
         {
             var toPlayer = player.transform.position - transform.position;
             transform.localScale = new Vector3(Mathf.Sign(toPlayer.x), 1, 1);
