@@ -9,10 +9,10 @@ VAR idle = (_mechanic)
 VAR npc_hidden = (_guard)
 
 // Helper for adding chloroform option to all npcs.
-=== chloroform_options(npc_id,list_item) ===
-  * [Use chloroform.]
+=== chloroform_options(npc_id,list_item,->divert) ===
+  + [Use chloroform.]
     {chloroformWrapper(npc_id,list_item)}
-    -> main_loop
+    -> divert
   + [{exit}]
     -> main_loop
 ->DONE
@@ -25,7 +25,7 @@ VAR npc_hidden = (_guard)
   -> main_loop
 - panicked?_guard:
   Guard: You'll never get away with this, {shuffle:scoundrel|villain}!
-  <- chloroform_options("guard",_guard)
+  <- chloroform_options("guard",_guard,->main_loop)
 - else:
   Guard: You seem familiar. Have we met?
   + You: I don't think so.
@@ -42,7 +42,7 @@ CONST mechanic_name =  "Jimmy"
 {
  - panicked?_mechanic:
    Mechanic: {shuffle: You're a menace to everyone on this train.|They'll put you away for a long time.|You picked the wrong train to screw with, buddy.}
-   <- chloroform_options("mechanic",_mechanic)
+   <- chloroform_options("mechanic",_mechanic,->main_loop)
    -> DONE
  - idle?_mechanic: -> mechanic.idle_dialogue ->
  - else: -> mechanic.other ->
@@ -118,7 +118,7 @@ CONST mechanic_name =  "Jimmy"
 {
  - panicked?_inventor:
    Inventor: {shuffle: Did you seriously think you could outwit me?|You'll hang for this.}
-   <- chloroform_options("inventor",_inventor)
+   <- chloroform_options("inventor",_inventor,->main_loop)
    -> DONE
 }
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
@@ -148,7 +148,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 {
  - panicked?_magnate:
    Oil Magnate: I hope you can afford a good lawyer, criminal!
-   <- chloroform_options("magnate",_magnate)
+   <- chloroform_options("magnate",_magnate,->alert_inventor)
    -> DONE
 }
 //Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
@@ -180,8 +180,7 @@ Oil Magnate: {Do you know how wealthy I am? -> how_wealthy|{suspicious?_magnate:
      *** You: Well, you might not like the alternative.
          Oil Magnate: Are you threatening me?
          **** You: Yes.
-              Oil Magnate: Oh. Well then.
-              Oil Magnate: Here, take it.
+              Oil Magnate: Oh. I see how it is.
               ~inventory += money
               ~inventory += wallet
               The oil magnate hands you a fine leather wallet containing $200.
@@ -209,6 +208,12 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
   ** You: Wow, you sure showed me.
   --
   Oil Magnate: I know.
+-> main_loop
+= alert_inventor
+{not (chloroformed?_inventor):
+  Inventor: I saw that! You maniac!
+  ~ panicked += _inventor
+}
 -> main_loop
 
 === novelist ===
