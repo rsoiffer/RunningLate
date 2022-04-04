@@ -13,13 +13,17 @@ Interactables: plant, novelist
 Other decorations: armchairs, coffee table
 
 ## Dining Car
-Interactables: table, student, oil magnate, inventor(?)
+Interactables: table, oil magnate (sitting in armchair), inventor
+
+## Loung 2
+(just stick some armchairs and coffee table in there, like first lounge).
+Interactables: hunter, student
 
 ## Kitchen
-Interactables: sink, oven
+Interactables: sink, oven, mechanic (must put a wall between mechanic and oven).
 
-## Crew quarters
-Interactables: mechanic
+
+
 
 ## Engine:
 (stretch goal)
