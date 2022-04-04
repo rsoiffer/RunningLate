@@ -16,7 +16,7 @@ A secretive patron has promised to pay you handsomely for these plans.
 // Note: this should not be displayed to player, since we are in "menu mode"
 menu
 //{"Inventory: " + prettyPrintInventory()}
-//{"Objectives: " + prettyPrintObjectives()}
+{"Objectives: " + prettyPrintObjectives()}
 Available interactions:
 + [INTERACT("safe")] -> safe
 + [INTERACT("guard")] -> guard

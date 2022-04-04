@@ -271,9 +271,9 @@ Student: You're on.
   ~ made_bet = true
   You shake on it.
   Student: Excellent. Now watch this.
-  Student: HEY, CONDUCTOR! I've noticed that no one has inspected the gearboxes since we left Banff.
+  Student: HEY, CONDUCTOR! I've noticed that no one has inspected the axle bearings since we left Banff.
   Student: This violates section 132.43 of the <i>Railway Code</i>.  You'd better stop and inspect them real quick if you don't want to get sued.
-  Conductor: Oh, frick. You're right.
+  Conductor: By Jove, she's right!
   ~ delayTrain(60,"Conductor: Alright, that's that sorted.  Let's get going again.")
   Student: You owe me 200 bucks.
   ** You: Really?
