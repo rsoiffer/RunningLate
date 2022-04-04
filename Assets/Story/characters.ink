@@ -144,6 +144,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
    -> main_loop
 -> main_loop
 
+VAR magnate_stopped_train = false
 === magnate ===
 -> check_chloroformed(_magnate) ->
 {
@@ -154,7 +155,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 }
 //Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
 Oil Magnate: {Do you know how wealthy I am? -> how_wealthy|{suspicious?_magnate:What do you want now?|Hello again!}}
- * I don't believe you're as wealthy as you say you are.
+ * {not magnate_stopped_train}I don't believe you're as wealthy as you say you are.
    -> challenge_him
  + [Goodbye.]
 -
@@ -209,12 +210,15 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 * You: I bet you couldn't make the conductor stop the train for you right now.
   Oil Magnate: CONDUCTOR! I will pay you $1000 dollars if you stop the train this instant.
   ~ delayTrain(60,"Enough of that. Let's get going again.")
+  ~ magnate_stopped_train = true
   Conductor: Whatever you say, boss!
   Oil Magnate: How's that for you?
   ** You: Impressive.
   ** You: Wow, you sure showed me.
   --
   Oil Magnate: I know.
+* ->
+-
 -> main_loop
 = alert_inventor
 {not (chloroformed?_inventor):
