@@ -98,6 +98,9 @@ CONST mechanic_name =  "Jimmy"
 ->->
 = handle_accident
 ~delayTrain(60,"Conductor: Everything seems to be under control. Let's get moving again.")
+{plant_state == burning:
+    ~ changeVisualState("plant","burnt")
+}
 {handle_accident > 1:
  {suspicious?_mechanic:
   Mechanic: You expect me to believe that a shady guy like you just happened to come across two unrelated accidents?

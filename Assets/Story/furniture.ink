@@ -45,8 +45,10 @@ The fireplace is {fireplace_state?burning:crackling merrily|cold and dark}.
 = toggle_fire_state
 + {fireplace_state == burning} [Put out the fire.]
   ~ fireplace_state = normal
+  ~ changeVisualState("fireplace","unlit")
   -> fireplace
 + {fireplace_state == normal  and canStartFire()} [Light the fire.]
+  ~ changeVisualState("fireplace","lit")
   ~ fireplace_state = burning
   -> fireplace
 -> DONE
@@ -99,6 +101,7 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
   + {canStartFire()}[Set it on fire.]
     The plant catches fire easily.
     ~ plant_state = burning
+    ~ changeVisualState("plant","burning")
     //~ incriminating += firestarters
     -> main_loop
   + [{exit}] -> main_loop
