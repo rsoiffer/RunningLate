@@ -170,9 +170,11 @@ CONST mechanic_name =  "Jimmy"
 }
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
  * [Pick pockets]
-   You pick the inventor's pockets...
-   ...and find the airship plans you were looking for!
-   Maybe this job is salvageable after all.
+   You pick the inventor's pockets and find the airship plans you came here for!
+   ~ inventory += airship_plans
+   Wait a second...
+   This must mean that {name(_inventor)} was attempting to frame you for stealing his own plans.
+   It takes more than that to outsmart you, though!
    -> main_loop
  + You: Goodbye.
    -> main_loop
@@ -183,7 +185,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 + You: Goodbye.
   -> main_loop
 = conversation
- * You: That's terrible!
+ + You: That's terrible!
    Hunter: What are you talking about?
    Hunter: If I don't kill the MegaRhinos then who will?
    ** You: Sorry, I thought you meant... never mind.
