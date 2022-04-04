@@ -9,6 +9,29 @@ VAR busy = ()
 VAR idle = (_mechanic)
 VAR npc_hidden = (_guard)
 
+// Get id from list item
+=== function get_npc_id(npc) ===
+{npc:
+ - _guard: ~return "guard"
+ - _mechanic: ~return "mechanic"
+ - _magnate: ~return "magnate"
+ - _novelist: ~return "novelist"
+ - _student: ~return "student"
+ - _hunter: ~return "hunter"
+ - _inventor: ~return "inventor"
+}
+// Get list item by id
+=== function get_npc_by_id(npc) ===
+{npc:
+ - "guard": ~return _guard
+ - "mechanic": ~return _mechanic
+ - "magnate": ~return _magnate
+ - "novelist": ~return _novelist
+ - "student": ~return _student
+ - "hunter": ~return _hunter
+ - "inventor": ~return _inventor
+}
+
 // Helper for adding chloroform option to all npcs.
 === chloroform_options(npc_id,list_item,->divert) ===
   + [Use chloroform.]
@@ -18,14 +41,31 @@ VAR npc_hidden = (_guard)
     -> main_loop
 ->DONE
 
+// Helper for groggy npcs.
+=== check_groggy(display_name,npc) ===
+{not (groggy?npc):
+ ->->
+}
+{display_name}: You seem familiar. Have we met before?
++ You: I don't think so.
+  {display_name}: Sorry, I'm feeling a bit groggy today.
+  -> main_loop
+
+// Start of character dialogue definitions ---------------------------------
 
 === guard ===
 -> check_chloroformed(_guard) ->
+-> check_groggy("Guard",_guard) ->
 {
 - npc_hidden?_guard:
   -> main_loop
 - panicked?_guard:
   Guard: You'll never get away with this, {shuffle:scoundrel|villain}!
+  + [Use chloroform.]
+    -> tutorialChloroformWrapper("guard",_guard) ->
+    -> main_loop
+  + [{exit}]
+    -> main_loop
   <- chloroform_options("guard",_guard,->main_loop)
 - else:
   Guard: You seem familiar. Have we met?
@@ -39,6 +79,7 @@ VAR npc_hidden = (_guard)
 CONST mechanic_name =  "Jimmy"
 === mechanic ===
 -> check_chloroformed(_mechanic) ->
+-> check_groggy("Mechanic",_mechanic) ->
 # DIALOGUE
 {
  - panicked?_mechanic:
@@ -120,6 +161,7 @@ CONST mechanic_name =  "Jimmy"
 
 === inventor ===
 -> check_chloroformed(_inventor) ->
+-> check_groggy("Inventor",_inventor) ->
 {
  - panicked?_inventor:
    Inventor: {shuffle: Did you seriously think you could outwit me?|You'll hang for this.}
@@ -151,6 +193,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 VAR magnate_stopped_train = false
 === magnate ===
 -> check_chloroformed(_magnate) ->
+-> check_groggy("Oil Magnate",_magnate) ->
 {
  - panicked?_magnate:
    Oil Magnate: I hope you can afford a good lawyer, criminal!
@@ -233,6 +276,7 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 
 === novelist ===
 -> check_chloroformed(_novelist) ->
+-> check_groggy("Novelist",_novelist) ->
 Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.|I should be writing right now.}
 -> main_loop
 
@@ -304,8 +348,8 @@ Student: Do you have the money yet?
      ~ debt_payed = true
      -> main_loop
  + You: No, I'll get back to you.
-    Student: You'd better.
-    -> main_loop
+   Student: You'd better.
+   -> main_loop
 
 === check_chloroformed(character) ===
 {chloroformed?character:

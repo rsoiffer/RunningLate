@@ -19,7 +19,7 @@ VAR safe_opened = false
     Instead, there's a note resembling your own handwriting.
     ~inventory += letter
     // TODO Sprite overlay
-    "Cower, simpletons! Your plans have been stolen by the great Augustin DuPont."
+    "Cower, simpletons! Your plans have been stolen by the great {player_name}."
     "The world will know and fear me!"
     You didn't write this; someone is trying to set you up!
     As you read the note, a guard walks into the room.

@@ -21,15 +21,13 @@
 
 === function characterAwakes(npc_id) ===
 // No return value, just sets state in Ink
-{npc_id:
- -"guard":
-   ~chloroformed -= _guard
-   ~changeVisualState(npc_id,"visible")
- -"mechanic":
-   ~chloroformed -= _mechanic
-   ~changeVisualState(npc_id,"normal")
+~temp npc = get_npc_by_id(npc_id)
+{not (chloroformed?npc):
+ ~return
 }
-~ return
+~chloroformed -= npc 
+~groggy += npc
+~changeVisualState(npc_id,"visible")
 
 // Ink calls to Engine ------------------------------------------------
 
