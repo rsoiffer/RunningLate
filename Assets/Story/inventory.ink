@@ -20,7 +20,7 @@ LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchb
     - _guard: ~return "the guard"
     - _mechanic: ~return "the mechanic"
     - _inventor: ~return "the inventor"
-    - _hunter: ~return "the big hame hunter"
+    - _hunter: ~return "the big game hunter"
     - _novelist: ~return "the novelist"
     - _student: ~return "the law student"
     - _magnate: ~return "the oil magnate"

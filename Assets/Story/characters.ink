@@ -201,7 +201,7 @@ CONST mechanic_name =  "Jimmy"
 }
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
  <- desert_option("Inventor",_inventor)
- * [Pick pockets]
+ * [Pickpocket him.]
    You pick the inventor's pockets and find the airship plans you came here for!
    ~ inventory += airship_plans
    Wait a second...
@@ -216,6 +216,10 @@ Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Tr
 -> check_groggy("Hunter",_hunter) ->
 -> check_eating(_hunter) ->
 Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia is teeming with beautiful animals to shoot.}
+ * [Pickpocket him.]
+   You pick {name(_hunter)}'s pockets and find a cigarette lighter.
+   ~ inventory += lighter
+   -> main_loop
 + You: Goodbye.
   -> main_loop
 = conversation
