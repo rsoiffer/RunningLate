@@ -391,6 +391,7 @@ Student: You're on.
   Student: You entered a legally binding oral contract.
   ** {inventory has money}You: Ok, fine.
      ~ inventory -= money
+     ~ debt_payed = true
      You hand over the money.
      Student: Pleasure doing business with you.
   ** You: I'll get you the money before we arrive.

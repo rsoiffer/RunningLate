@@ -47,6 +47,7 @@ menu
 
 
 === game_over ===
+# DIALOGUe
 The whistle sounds as <i>The Imperial Limited</i> pull into Waterfront station.
 {
  - not safe_opened:

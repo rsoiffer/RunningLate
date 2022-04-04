@@ -27,7 +27,12 @@
 }
 ~chloroformed -= npc 
 ~groggy += npc
-~changeVisualState(npc_id,"visible")
+{npc_id==_guard:
+  // I knew this inconsistency would come back to bite me.
+  ~changeVisualState(npc_id,"visible")
+-else:
+  ~changeVisualState(npc_id,"normal")
+}
 
 // Ink calls to Engine ------------------------------------------------
 
