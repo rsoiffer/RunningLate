@@ -13,7 +13,7 @@ public class TrainTimer : MonoBehaviour
     public float maxSpeed = 50;
     private float currentSpeed;
     public float trainAccel = 5;
-    public List<ScrollingBackground> scrollingBackgrounds;
+    public ScrollingBackground scrollingBackground;
 
     [HideInInspector] public float timerPauseCountdown = 0f;
     private List<Animator> allWheels;
@@ -39,11 +39,7 @@ public class TrainTimer : MonoBehaviour
         var deltaSpeed = trainAccel * Time.deltaTime;
         currentSpeed = Mathf.Clamp(goalSpeed, currentSpeed - deltaSpeed, currentSpeed + deltaSpeed);
         CameraFollow.Instance.noiseRatio = currentSpeed / maxSpeed;
-        foreach (var scrollingBackground in scrollingBackgrounds)
-        {
-            scrollingBackground.scrollSpeed = currentSpeed;
-        }
-
+        scrollingBackground.scrollSpeed = currentSpeed;
         foreach (var wheel in allWheels)
         {
             wheel.speed = currentSpeed / maxSpeed;

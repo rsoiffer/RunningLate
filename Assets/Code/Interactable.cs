@@ -9,13 +9,20 @@ public class Interactable : MonoBehaviour
 
     public static Interactable Get(string name) => allInteractables[name];
 
+    public bool facePlayer;
     public Transform worldCanvas;
     public GameObject timerPanelPrefab;
     private GameObject myTimerPanel;
     private TextMeshProUGUI myTimerText;
+    private GameObject player;
 
     [HideInInspector] public string visualState;
     [HideInInspector] public float sleepDuration;
+
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
     private void OnEnable()
     {
@@ -66,6 +73,12 @@ public class Interactable : MonoBehaviour
         {
             Destroy(myTimerPanel);
             InkApi.Instance.WakeCharacter(name);
+        }
+
+        if (facePlayer)
+        {
+            var toPlayer = player.transform.position - transform.position;
+            transform.localScale = new Vector3(Mathf.Sign(toPlayer.x), 1, 1);
         }
     }
 }
