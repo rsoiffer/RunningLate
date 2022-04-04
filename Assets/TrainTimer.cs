@@ -28,6 +28,7 @@ public class TrainTimer : MonoBehaviour
         if (timerPauseCountdown <= 0)
         {
             remainingSeconds -= Time.deltaTime;
+            remainingSeconds = Mathf.Max(remainingSeconds, 0);
         }
 
         var goalSpeed = timerPauseCountdown <= 0 ? maxSpeed : 0f;

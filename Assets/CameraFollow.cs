@@ -14,6 +14,11 @@ public class CameraFollow : MonoBehaviour
     private void Start()
     {
         Instance = this;
+        transform.position = new Vector3(
+            toFollow.position.x,
+            toFollow.position.y,
+            transform.position.z
+        );
     }
 
     private void FixedUpdate()

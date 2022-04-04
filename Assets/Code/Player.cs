@@ -6,6 +6,9 @@ public class Player : MonoBehaviour
     public float walkAccel = 0.3f;
     private Rigidbody2D myRigidbody;
 
+    public GameObject standSprite;
+    public GameObject walkAnim;
+
     private void Start()
     {
         myRigidbody = GetComponentInParent<Rigidbody2D>();
@@ -18,14 +21,17 @@ public class Player : MonoBehaviour
         {
             goalMovement += Vector2.up;
         }
+
         if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
         {
             goalMovement += Vector2.left;
         }
+
         if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
         {
             goalMovement += Vector2.down;
         }
+
         if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
         {
             goalMovement += Vector2.right;
@@ -38,5 +44,19 @@ public class Player : MonoBehaviour
 
         goalMovement *= walkSpeed;
         myRigidbody.velocity = Vector2.Lerp(myRigidbody.velocity, goalMovement, walkAccel);
+
+        walkAnim.SetActive(goalMovement.magnitude > 0.0);
+        standSprite.SetActive(goalMovement.magnitude <= 0.0);
+        if (goalMovement.x > 0.0)
+        {
+            walkAnim.transform.localScale = new Vector3(1, 1, 1);
+            standSprite.transform.localScale = new Vector3(1, 1, 1);
+        }
+
+        if (goalMovement.x < 0.0)
+        {
+            walkAnim.transform.localScale = new Vector3(-1, 1, 1);
+            standSprite.transform.localScale = new Vector3(-1, 1, 1);
+        }
     }
 }
