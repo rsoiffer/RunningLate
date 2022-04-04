@@ -3,7 +3,8 @@ LIST characters = _guard, _mechanic, _magnate, _novelist, _student, _hunter, _in
 // Possible status effects
 VAR chloroformed = ()
 VAR suspicious = ()
-VAR panicked = (_novelist)
+VAR panicked = ()
+VAR groggy = ()
 VAR busy = ()
 VAR idle = (_mechanic)
 VAR npc_hidden = (_guard)
@@ -194,15 +195,21 @@ Oil Magnate: {Do you know how wealthy I am? -> how_wealthy|{suspicious?_magnate:
 -
 -> main_loop
 = challenge_him
-{suspicious?_magnate:
+// TODO If he already gave you his wallet, you need to threaten him to make him stop the train.
+//  (Not a high priority, though).
+{
+ - suspicious?_magnate:
     Oil Magnate: I don't have to prove anything to you.
     -> main_loop
+ - groggy?_magnate:
+    Oil Magnate: {shuffle:Don't trains always make you sleepy?|I just had the strangest dream.}
 }
 Oil Magnate: Don't be silly.
 Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof do you need?|I can buy anything I want, whenever I want.}
 * You: I bet you couldn't make the conductor stop the train for you right now.
   Oil Magnate: CONDUCTOR! I will pay you $1000 dollars if you stop the train this instant.
   ~ delayTrain(60,"Enough of that. Let's get going again.")
+  Conductor: Whatever you say, boss!
   Oil Magnate: How's that for you?
   ** You: Impressive.
   ** You: Wow, you sure showed me.
@@ -218,13 +225,79 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 
 === novelist ===
 -> check_chloroformed(_novelist) ->
-Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.}
+Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.|I should be writing right now.}
 -> main_loop
 
+VAR made_bet = false
+VAR debt_payed = false
 === student ===
 -> check_chloroformed(_student) ->
+{
+ - made_bet and not debt_payed:
+   -> ask_about_money
+
+}
 Student: {shuffle:I'm going to change the world some day!|I should be studying for the bar exam.|I had that dream about the unexpected final exam again.}
+ * You: What do you study?
+   Student: I'm studying law.
+   Student: I've almost graduated, actually!
+   ** You: So you're going to be a lawyer?
+     Student: Yup!
+     Student: Well, assuming I pass the bar exam.  Fingers crossed.
+     *** You: I'm sure you'll do fine.
+        Student: Probably! I'm top of my class.
+        Student: I'm really good at lawyering.
+        Student: They say I could talk anyone into anything.
+        **** You: Oh, really?
+            -> make_bet
+     // Not sure about this one:
+     //** You: A female lawyer? Seems unlikely.
+     //   Student: What's wrong with you? It's 1932.
+     //   Student: Women can be whatever they want to be.
+ + [Goodbye.]
+-
 -> main_loop
+= make_bet
+You: I bet you couldn't convince the conductor to stop the train right now.
+Student: How much you wanna bet?
+* You: Let's say $200.
+-
+Student: You're on.
+* [Wimp out.]
+  You: Actually, on second thought, no.
+  Student: Coward.
+  -> main_loop
+* [Shake on it.]
+  ~ made_bet = true
+  You shake on it.
+  Student: Excellent. Now watch this.
+  Student: HEY, CONDUCTOR! I've noticed that no one has inspected the gearboxes since we left Banff.
+  Student: This violates section 132.43 of the <i>Railway Code</i>.  You'd better stop and inspect them real quick if you don't want to get sued.
+  Conductor: Oh, frick. You're right.
+  ~ delayTrain(60,"Conductor: Alright, that's that sorted.  Let's get going again.")
+  Student: You owe me 200 bucks.
+  ** You: Really?
+  --
+  Student: You entered a legally binding oral contract.
+  ** {inventory has money}You: Ok, fine.
+     ~ inventory -= money
+     You hand over the money.
+     Student: Pleasure doing business with you.
+  ** You: I'll get you the money before we arrive.
+     Student: You will if you know what's good for you.
+-
+-> main_loop
+= ask_about_money  
+Student: Do you have the money yet?
++ {inventory has money} You: Here, take it.
+     ~ inventory -= money
+     You hand over the money.
+     Student: Pleasure doing business with you.
+     ~ debt_payed = true
+     -> main_loop
+ + You: No, I'll get back to you.
+    Student: You'd better.
+    -> main_loop
 
 === check_chloroformed(character) ===
 {chloroformed?character:
