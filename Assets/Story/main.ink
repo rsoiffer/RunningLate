@@ -71,7 +71,7 @@ The whistle sounds as <i>The Imperial Limited</i> pull into Waterfront station.
    The law student is suing you for the money you owe pursuant to your bet.
    ** [Settle the case for $300.]
       You decide to settle for $300, substantially more than the initial bet.
-      -> END
+      -> restart
    ** [Fight it in court.]
       You attempt to defend yourself.
       In the process, subpoenad documents reveal your identity as the notorious criminal {player_name}, and you are promptly arrested.
@@ -79,7 +79,7 @@ The whistle sounds as <i>The Imperial Limited</i> pull into Waterfront station.
       Also, the student wins her lawsuit, recovering her original $200 plus $1000 in attorney fees.
       // TODO Alternate ending: maybe she passes the bar, offers to represent
       //  you in court for a hefty fee, and gets you off on a technicality?
-      -> END
+      -> restart
  - inventory has airship_plans:
    You step off the train safely and disappear into the crowds of Gastown, with the airship plans securely in hand.
    Another successful heist for {player_name}, despite the attempted framing!
@@ -87,7 +87,7 @@ The whistle sounds as <i>The Imperial Limited</i> pull into Waterfront station.
    You step off the train safely and disappear into the crowds of Gastown.
    Unfortunately, you never did find out what happened to those airship plans.
 }
--> END
+-> restart
 
 = letter_confrontation
 Stepping off the train, the fake calling-card note slips from your pocket.
@@ -111,6 +111,10 @@ Inventor: Aha! You're the one who stole my airship plans!
 -
 The police drag you away, not heeding your pathetic protestations.
 This is the end for {player_name}.
--> END
+-> restart
 
+= restart
++ [Play again?]
+  ~restartGame()
+  -> END
 
