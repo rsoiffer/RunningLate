@@ -90,12 +90,21 @@ public class InkManager : MonoBehaviour
             button.onClick.AddListener(() => nextChoice = choiceIndex);
 
             var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
-            buttonText.text = "<color=#debf89>(" + choiceIndex + ")</color> " + ParseText(inkStory.currentChoices[i].text);
+            buttonText.text = "<color=#debf89>(" + choiceIndex + ")</color> " +
+                              ParseText(inkStory.currentChoices[i].text);
         }
     }
 
     private void StepInk()
     {
+        if (TrainTimer.Instance != null && TrainTimer.Instance.remainingSeconds == 0f && currentKnot != "game_over")
+        {
+            inkStory.ChoosePathString("game_over");
+            currentKnot = "game_over";
+            dialogueHistory = "";
+            ContinueAndLogDialogue();
+        }
+
         if (currentKnot == null)
         {
             var interactable = interactableTracker.GetInteractable();
