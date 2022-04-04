@@ -89,8 +89,8 @@ public class InkManager : MonoBehaviour
             var choiceIndex = i + 1;
             button.onClick.AddListener(() => nextChoice = choiceIndex);
 
-            var buttonText = button.GetComponentInChildren<Text>();
-            buttonText.text = "(" + choiceIndex + ") " + ParseText(inkStory.currentChoices[i].text);
+            var buttonText = button.GetComponentInChildren<TextMeshProUGUI>();
+            buttonText.text = "<color=#debf89>(" + choiceIndex + ")</color> " + ParseText(inkStory.currentChoices[i].text);
         }
     }
 

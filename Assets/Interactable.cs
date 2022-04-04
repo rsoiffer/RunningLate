@@ -1,5 +1,6 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
+using TMPro;
 using UnityEngine;
 
 public class Interactable : MonoBehaviour
@@ -7,6 +8,11 @@ public class Interactable : MonoBehaviour
     private static Dictionary<string, Interactable> allInteractables = new Dictionary<string, Interactable>();
 
     public static Interactable Get(string name) => allInteractables[name];
+
+    public Transform worldCanvas;
+    public GameObject timerPanelPrefab;
+    private GameObject myTimerPanel;
+    private TextMeshProUGUI myTimerText;
 
     [HideInInspector] public string visualState;
     [HideInInspector] public float sleepDuration;
@@ -40,10 +46,25 @@ public class Interactable : MonoBehaviour
 
     private void Update()
     {
-        var oldSleepDuration = sleepDuration;
         sleepDuration -= Time.deltaTime;
-        if (sleepDuration <= 0 && oldSleepDuration > 0)
+
+        if (sleepDuration > 0)
         {
+            if (myTimerPanel == null)
+            {
+                myTimerPanel = Instantiate(timerPanelPrefab, worldCanvas);
+                myTimerPanel.transform.position += transform.position;
+                myTimerText = myTimerPanel.GetComponentsInChildren<TextMeshProUGUI>()
+                    .First(c => c.name == "Timer Text");
+            }
+
+            int minutes = Mathf.FloorToInt(sleepDuration / 60);
+            int seconds = Mathf.FloorToInt(sleepDuration % 60);
+            myTimerText.text = minutes + ":" + seconds.ToString("00");
+        }
+        else if (myTimerPanel != null)
+        {
+            Destroy(myTimerPanel);
             InkApi.Instance.WakeCharacter(name);
         }
     }

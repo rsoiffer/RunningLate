@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
 
     private void Start()
     {
-        myRigidbody = GetComponent<Rigidbody2D>();
+        myRigidbody = GetComponentInParent<Rigidbody2D>();
     }
 
     private void FixedUpdate()

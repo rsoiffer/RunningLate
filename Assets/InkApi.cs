@@ -5,26 +5,22 @@ using UnityEngine;
 public class InkApi
 {
     public static InkApi Instance;
-    
+
     private Story inkStory;
 
     public InkApi(Story inkStory)
     {
-
         Instance = this;
         this.inkStory = inkStory;
 
         inkStory.BindExternalFunction("delayTrain", (int seconds, string message) =>
-            TrainTimer.Instance.timerPauseCountdown = Mathf.Max(TrainTimer.Instance.timerPauseCountdown, seconds));
+        {
+            Debug.Log("Need to play this message later: " + message);
+            TrainTimer.Instance.timerPauseCountdown = Mathf.Max(TrainTimer.Instance.timerPauseCountdown, seconds);
+        });
 
         inkStory.BindExternalFunction("chloroformNPC", (string npc_id) =>
-        {
-            // TODO: Implement this
-            Debug.Log("Should chloroform NPC " + npc_id);
-
-            var npc = Interactable.Get(npc_id);
-            npc.sleepDuration = 300;
-        });
+            Interactable.Get(npc_id).sleepDuration = 300);
 
         inkStory.BindExternalFunction("changeVisualState", (string obj_id, string state_id) =>
             Interactable.Get(obj_id).SetVisualState(state_id));
