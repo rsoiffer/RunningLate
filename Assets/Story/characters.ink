@@ -3,10 +3,19 @@ LIST characters = _guard, _mechanic, _magnate, _novelist, _student, _hunter, _in
 // Possible status effects
 VAR chloroformed = ()
 VAR suspicious = ()
-VAR panicked = ()
+VAR panicked = (_novelist)
 VAR busy = ()
 VAR idle = (_mechanic)
 VAR npc_hidden = (_guard)
+
+// Helper for adding chloroform option to all npcs.
+=== chloroform_options(npc_id,list_item) ===
+  * [Use chloroform.]
+    {chloroformWrapper(npc_id,list_item)}
+    -> main_loop
+  + [{exit}]
+    -> main_loop
+->DONE
 
 
 === guard ===
@@ -15,13 +24,8 @@ VAR npc_hidden = (_guard)
 - npc_hidden?_guard:
   -> main_loop
 - panicked?_guard:
-  Guard: You'll never get away with this, scoundrel!
-  * [Chloroform him!]
-    {chloroformWrapper("guard",_guard)}
-    When he wakes up he won't remember a thing.
-    However, if he's still unconscious when the train arrives you'll have a major problem on your hands.
-    You'll have to delay the train somehow.
-    -> main_loop
+  Guard: You'll never get away with this, {shuffle:scoundrel|villain}!
+  <- chloroform_options("guard",_guard)
 - else:
   Guard: You seem familiar. Have we met?
   + You: I don't think so.
@@ -38,6 +42,8 @@ CONST mechanic_name =  "Jimmy"
 {
  - panicked?_mechanic:
    Mechanic: {shuffle: You're a menace to everyone on this train.|They'll put you away for a long time.|You picked the wrong train to screw with, buddy.}
+   <- chloroform_options("mechanic",_mechanic)
+   -> DONE
  - idle?_mechanic: -> mechanic.idle_dialogue ->
  - else: -> mechanic.other ->
 }
@@ -109,6 +115,12 @@ CONST mechanic_name =  "Jimmy"
 
 === inventor ===
 -> check_chloroformed(_inventor) ->
+{
+ - panicked?_inventor:
+   Inventor: {shuffle: Did you seriously think you could outwit me?|You'll hang for this.}
+   <- chloroform_options("inventor",_inventor)
+   -> DONE
+}
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
  * [Pick pockets]
    You pick the inventor's pockets...
@@ -133,7 +145,70 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
 
 === magnate ===
 -> check_chloroformed(_magnate) ->
-Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
+{
+ - panicked?_magnate:
+   Oil Magnate: I hope you can afford a good lawyer, criminal!
+   <- chloroform_options("magnate",_magnate)
+   -> DONE
+}
+//Oil Magnate: {shuffle:Good day!|I am extremely wealthy.|Maybe I should buy another house in Vancouver.|Just aquired some very promising mineral rights in northern Alberta.}
+Oil Magnate: {Do you know how wealthy I am? -> how_wealthy|{suspicious?_magnate:What do you want now?|Hello again!}}
+ * I don't believe you're as wealthy as you say you are.
+   -> challenge_him
+ + [Goodbye.]
+-
+-> main_loop
+= how_wealthy
+* You: Why would I know that?
+  Oil Magnate: I'm one of the wealthiest men in Canada!
+  Oil Magnate: Anyone who's anyone knows who I am.
+  ** I don't believe it.
+     -> challenge_him
+* You: I wouldn't flaunt my wealth if I were you.  There could be thieves around.
+  Oil Magnate: I'm not worried about that.
+  Oil Magnate: To be honest, money means so little to me at this point that I wouldn't even mind losing my wallet.
+  ** You: Why not hand it over to me, then?
+     Oil Magnate: Bold.  But no, what would I stand to gain from that?
+     *** You: The satisfaction of a generous act?
+         Oil Magnate: Haha.  You're quite the joker.
+     *** You: Stop making excuses.  I bet you're not even that wealthy.
+         Oil Magnate: Why, you little...
+         Oil Magnate: Fine. Take it! See if I care.
+         ~inventory += money
+         ~inventory += wallet
+         The oil magnate hands you a fine leather wallet containing $200.
+     *** You: Well, you might not like the alternative.
+         Oil Magnate: Are you threatening me?
+         **** You: Yes.
+              Oil Magnate: Oh. Well then.
+              Oil Magnate: Here, take it.
+              ~inventory += money
+              ~inventory += wallet
+              The oil magnate hands you a fine leather wallet containing $200.
+              Oil Magnate: You won't get away with this, you know!
+              ~panicked += _magnate
+         **** You: No, of course not.
+              Oil Magnate: Damn straight.
+              Oil Magnate: I don't like the cut of your jib.
+              ~suspicious += _magnate
+  ** You: If you say so.
+-
+-> main_loop
+= challenge_him
+{suspicious?_magnate:
+    Oil Magnate: I don't have to prove anything to you.
+    -> main_loop
+}
+Oil Magnate: Don't be silly.
+Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof do you need?|I can buy anything I want, whenever I want.}
+* You: I bet you couldn't make the conductor stop the train for you right now.
+  Oil Magnate: CONDUCTOR! I will pay you $1000 dollars if you stop the train this instant.
+  ~ delayTrain(60,"Enough of that. Let's get going again.")
+  Oil Magnate: How's that for you?
+  ** You: Impressive.
+  ** You: Wow, you sure showed me.
+  --
+  Oil Magnate: I know.
 -> main_loop
 
 === novelist ===

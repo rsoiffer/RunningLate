@@ -1,5 +1,5 @@
 // List of all possible items
-LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform, airship_plans, lighter, nanaimo_bar
+LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchbook, chloroform, airship_plans, lighter, nanaimo_bar, money, wallet
 
 === function name(item) ===
   {item:
@@ -14,6 +14,8 @@ LIST items = knife, letter, strange_schematics, mop, cloth, handkerchief, matchb
     - airship_plans: ~return "the airship schematics"
     - lighter: ~return "cigarette lighter"
     - nanaimo_bar: ~return "Nanaimo bar"
+    - money: ~return "$200"
+    - wallet: ~return "wallet."
     // Same function also used for characters, terrible hack (sorry)
     - _guard: ~return "the guard"
     - _mechanic: ~return "the mechanic"

@@ -6,7 +6,7 @@ guard
 visual states: invisible_nointeract, visible, unconscious
 
 mechanic
-visual states: normal,unconscious
+visual states: normal, unconscious
 
 novelist
 visual states: normal, unconscious
