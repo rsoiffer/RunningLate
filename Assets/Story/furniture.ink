@@ -1,7 +1,7 @@
 // Object states
 LIST fire_states = normal, (burning), burnt
 
-VAR fireplace_state = burning
+VAR fireplace_state = normal
 VAR items_in_fireplace = () // items being burned in fireplace
 VAR gas_leak = false
 VAR plant_state = normal
@@ -13,14 +13,13 @@ VAR safe_opened = false
  ->main_loop
 }
  This safe should contain the airship plans you're looking for.
-  * [{exit}] -> main_loop
   * [Crack the safe.]
     ~ safe_opened = true
     The safe immediately clicks open, but you don't find the expected schematics inside.
     Instead, there's a note resembling your own handwriting.
     ~inventory += letter
     // TODO Sprite overlay
-    "Cower, simpletons! Your plans have been stolen by the great Augustin DuPont."
+    "Cower, simpletons! Your plans have been stolen by the great {player_name}."
     "The world will know and fear me!"
     You didn't write this; someone is trying to set you up!
     As you read the note, a guard walks into the room.
@@ -29,6 +28,7 @@ VAR safe_opened = false
     ~ npc_hidden -= _guard
     Guard: You won't get away with this, scoundrel!
     ->main_loop
+  + [{exit}] -> main_loop
 
 //TODO Probably should keep the door to the starting carriage closed until the guard enters.
 
@@ -104,13 +104,20 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
     ~ plant_state = burning
     ~ changeVisualState("plant","burning")
     //~ incriminating += firestarters
+    {attentive()?_novelist:->alert_novelist}
     -> main_loop
   + [{exit}] -> main_loop
 - burning: The plant is on fire.
   -> main_loop
-- burnt: You already burned this plant to a crisp.
+- burnt: You already burnt this plant to a crisp.
   -> main_loop
 }
+= alert_novelist
+// TODO Should be moved to a stitch in novelist knot
+Novelist: I saw that!
+Novelist: Wow, I finally get the chance to apprehend a criminal for real.
+~panicked += _novelist
+-> main_loop
 
 VAR table_has_nanaimo_bar = true
 === table ===
