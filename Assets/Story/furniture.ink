@@ -105,8 +105,10 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
     //~ incriminating += firestarters
     -> main_loop
   + [{exit}] -> main_loop
-- burning: The plant is on fire. -> main_loop
-- burnt: You already burned this plant to a crisp. -> main_loop
+- burning: The plant is on fire.
+  -> main_loop
+- burnt: You already burned this plant to a crisp.
+  -> main_loop
 }
 
 VAR table_has_nanaimo_bar = true
