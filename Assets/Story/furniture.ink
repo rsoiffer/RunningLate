@@ -86,6 +86,7 @@ You are looking at a small sink.
 This appears to be a small gas oven.
 * [Sabotage it!]
   ~ gas_leak = true
+  ~ changeVisualState("oven","gasleak")
   You sabotage the oven, creating a gas leak.  You'd better let the mechanic know before something goes horribly wrong!
   -> main_loop
 + [{exit}] -> main_loop
