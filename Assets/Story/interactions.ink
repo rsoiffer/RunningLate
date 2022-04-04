@@ -16,7 +16,7 @@ EXTERNAL nearby(obj_id)
 
 
 // Consistent text for "exit" option, where relevant.
-CONST exit = "(go back)"
+CONST exit = "Walk away."
 
 === function chloroformWrapper(npc_id,npc_list_item) ===
     ~ chloroformNPC(npc_id)

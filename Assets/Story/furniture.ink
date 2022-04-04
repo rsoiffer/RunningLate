@@ -1,7 +1,7 @@
 // Object states
 LIST fire_states = normal, (burning), burnt
 
-VAR fireplace_state = burning
+VAR fireplace_state = normal
 VAR items_in_fireplace = () // items being burned in fireplace
 VAR gas_leak = false
 VAR plant_state = normal
@@ -13,7 +13,6 @@ VAR safe_opened = false
  ->main_loop
 }
  This safe should contain the airship plans you're looking for.
-  * [{exit}] -> main_loop
   * [Crack the safe.]
     ~ safe_opened = true
     The safe immediately clicks open, but you don't find the expected schematics inside.
@@ -29,6 +28,7 @@ VAR safe_opened = false
     ~ npc_hidden -= _guard
     Guard: You won't get away with this, scoundrel!
     ->main_loop
+  + [{exit}] -> main_loop
 
 //TODO Probably should keep the door to the starting carriage closed until the guard enters.
 
