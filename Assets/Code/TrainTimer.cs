@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 
@@ -15,11 +16,14 @@ public class TrainTimer : MonoBehaviour
     public List<ScrollingBackground> scrollingBackgrounds;
 
     [HideInInspector] public float timerPauseCountdown = 0f;
+    private List<Animator> allWheels;
 
     private void Start()
     {
         Instance = this;
         currentSpeed = maxSpeed;
+        allWheels = GameObject.FindGameObjectsWithTag("Wheel")
+            .Select(x => x.GetComponent<Animator>()).ToList();
     }
 
     private void Update()
@@ -38,6 +42,11 @@ public class TrainTimer : MonoBehaviour
         foreach (var scrollingBackground in scrollingBackgrounds)
         {
             scrollingBackground.scrollSpeed = currentSpeed;
+        }
+
+        foreach (var wheel in allWheels)
+        {
+            wheel.speed = currentSpeed / maxSpeed;
         }
 
         int minutes = Mathf.FloorToInt(remainingSeconds / 60);
