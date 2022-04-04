@@ -312,10 +312,18 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 }
 -> main_loop
 
+
+
 === novelist ===
 -> check_chloroformed(_novelist) ->
 -> check_groggy("Novelist",_novelist) ->
 -> check_eating(_novelist) ->
+{
+ - panicked?_novelist:
+   Novelist: {shuffle:I know what you did!You're a terrifying criminal!}
+   <- chloroform_options("novelist",_novelist,->main_loop)
+   -> DONE
+}
 Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.|I should be writing right now.}
 <- desert_option("Novelist",_novelist)
 + [Goodbye.]

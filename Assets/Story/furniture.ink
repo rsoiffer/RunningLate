@@ -104,6 +104,7 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
     ~ plant_state = burning
     ~ changeVisualState("plant","burning")
     //~ incriminating += firestarters
+    {attentive()?_novelist:->alert_novelist}
     -> main_loop
   + [{exit}] -> main_loop
 - burning: The plant is on fire.
@@ -111,6 +112,12 @@ The oven has been sabotaged.  You smell natural gas. -> main_loop
 - burnt: You already burnt this plant to a crisp.
   -> main_loop
 }
+= alert_novelist
+// TODO Should be moved to a stitch in novelist knot
+Novelist: I saw that!
+Novelist: Wow, I finally get the chance to apprehend a criminal for real.
+~panicked += _novelist
+-> main_loop
 
 VAR table_has_nanaimo_bar = true
 === table ===
