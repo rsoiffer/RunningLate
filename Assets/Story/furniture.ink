@@ -121,6 +121,7 @@ You see a tasty-looking Nanaimo bar on the table.
    You grab the Nanaimo bar.
    ~inventory += nanaimo_bar
    ~table_has_nanaimo_bar = false
+   ~changeVisualState("table","empty")
    -> main_loop
  + [Leave it.]
    -> main_loop
