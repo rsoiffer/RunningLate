@@ -625,7 +625,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 214912839}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 204.8, y: 0, z: 10}
+  m_LocalPosition: {x: 204.8, y: 0, z: 20}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 601716805}
@@ -1281,13 +1281,21 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 50acb76062e16e04584c467bb7477af1, type: 3}
+    - target: {fileID: 2371353001957380289, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774369637702430865, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 40
+      value: 38.48
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1328,6 +1336,14 @@ PrefabInstance:
     - target: {fileID: 4742811511887122135, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_Name
       value: Kitchen
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772247410211303030, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442609672194140814, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
@@ -1863,8 +1879,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 10, y: 10}
-  m_SizeDelta: {x: 1180, y: 40.22}
+  m_AnchoredPosition: {x: 30, y: 30}
+  m_SizeDelta: {x: 1140, y: 40.22}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &477678144
 MonoBehaviour:
@@ -1917,6 +1933,14 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 107e772bcc98887438551ce201bbca4e, type: 3}
+    - target: {fileID: 2371353001957380289, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774369637702430865, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -1984,6 +2008,14 @@ PrefabInstance:
     - target: {fileID: 4928447302188887744, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772247410211303030, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442609672194140814, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 9111647592324467563, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_IsActive
@@ -3602,13 +3634,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 627983001}
     m_Modifications:
+    - target: {fileID: 2371353001957380289, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774369637702430865, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 30
+      value: 28.86
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3649,6 +3689,14 @@ PrefabInstance:
     - target: {fileID: 4742811511887122135, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_Name
       value: Lounge Car 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772247410211303030, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442609672194140814, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
@@ -3921,13 +3969,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 627983001}
     m_Modifications:
+    - target: {fileID: 2371353001957380289, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774369637702430865, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 20
+      value: 19.24
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3968,6 +4024,14 @@ PrefabInstance:
     - target: {fileID: 4742811511887122135, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_Name
       value: Dining Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772247410211303030, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442609672194140814, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
@@ -6245,7 +6309,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1556388486}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 9}
+  m_LocalPosition: {x: 0, y: 0, z: 19}
   m_LocalScale: {x: 200, y: 200, z: 1}
   m_Children: []
   m_Father: {fileID: 601716805}
@@ -6328,7 +6392,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1589648068}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -12.3, z: 10}
+  m_LocalPosition: {x: 0, y: -12.3, z: 20}
   m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 601716805}
@@ -7329,13 +7393,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 627983001}
     m_Modifications:
+    - target: {fileID: 2371353001957380289, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 2774369637702430865, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_RootOrder
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10
+      value: 9.62
       objectReference: {fileID: 0}
     - target: {fileID: 4742811511887122133, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_LocalPosition.y
@@ -7376,6 +7448,14 @@ PrefabInstance:
     - target: {fileID: 4742811511887122135, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
       propertyPath: m_Name
       value: Lounge Car
+      objectReference: {fileID: 0}
+    - target: {fileID: 6772247410211303030, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7442609672194140814, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
+      propertyPath: m_RootOrder
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 55a13c177121068428d7f70e1bbf26ad, type: 3}
