@@ -5,9 +5,12 @@ VAR chloroformed = ()
 VAR suspicious = ()
 VAR panicked = ()
 VAR groggy = ()
-VAR busy = ()
+VAR eating = ()
 VAR idle = (_mechanic)
 VAR npc_hidden = (_guard)
+=== function attentive() ===
+ // i.e. list of characters who can potentially see you committing crimes.
+ ~return LIST_INVERT(groggy + chloroformed + eating)
 
 // Get id from list item
 === function get_npc_id(npc) ===
@@ -32,6 +35,29 @@ VAR npc_hidden = (_guard)
  - "inventor": ~return _inventor
 }
 
+// A bunch of utility functions ---------------------------------------------
+// TODO many of these should be rolled into a single "header" function
+
+=== check_chloroformed(character) ===
+{chloroformed?character:
+  It seems {name(character)} is unconscious.
+  -> main_loop
+}
+->->
+
+// Helper for groggy npcs.
+=== check_groggy(display_name,npc) ===
+{not (groggy?npc):->->}
+{display_name}: You seem familiar. Have we met before?
++ You: I don't think so.
+  {display_name}: Sorry, I'm feeling a bit groggy today.
+  -> main_loop
+
+=== check_eating(npc) ===
+{not (eating?npc):->->}
+It seems that {name(npc)} is too busy eating a Nanaimo bar to pay attention to you.
+-> main_loop
+
 // Helper for adding chloroform option to all npcs.
 === chloroform_options(npc_id,list_item,->divert) ===
   + [Use chloroform.]
@@ -41,21 +67,22 @@ VAR npc_hidden = (_guard)
     -> main_loop
 ->DONE
 
-// Helper for groggy npcs.
-=== check_groggy(display_name,npc) ===
-{not (groggy?npc):
- ->->
-}
-{display_name}: You seem familiar. Have we met before?
-+ You: I don't think so.
-  {display_name}: Sorry, I'm feeling a bit groggy today.
-  -> main_loop
+// Helper for adding Nanaimo bar option to all npcs.
+=== desert_option(display_name,npc_id) ===
+  + {inventory has nanaimo_bar}You: Have you heard of a Nanaimo bar?
+    {display_name}: No, what's that?
+    You: It's a local desert.  Here, try one!
+    {display_name}: Oh, thank you!
+    ~inventory -= nanaimo_bar
+    ~eating += npc_id
+    -> main_loop
 
 // Start of character dialogue definitions ---------------------------------
 
 === guard ===
 -> check_chloroformed(_guard) ->
 -> check_groggy("Guard",_guard) ->
+-> check_eating(_guard) ->
 {
 - npc_hidden?_guard:
   -> main_loop
@@ -75,11 +102,12 @@ VAR npc_hidden = (_guard)
 }
 
 
-
+// Why did I give the mechanic a name ????
 CONST mechanic_name =  "Jimmy"
 === mechanic ===
 -> check_chloroformed(_mechanic) ->
 -> check_groggy("Mechanic",_mechanic) ->
+-> check_eating(_mechanic) ->
 # DIALOGUE
 {
  - panicked?_mechanic:
@@ -141,8 +169,10 @@ CONST mechanic_name =  "Jimmy"
 ~delayTrain(60,"Conductor: Everything seems to be under control. Let's get moving again.")
 {plant_state == burning:
     ~ changeVisualState("plant","burnt")
+    ~ plant_state = burnt
 }
 ~ changeVisualState("oven","normal")
+~ gas_leak = false
 {handle_accident > 1:
  {suspicious?_mechanic:
   Mechanic: You expect me to believe that a shady guy like you just happened to come across two unrelated accidents?
@@ -162,6 +192,7 @@ CONST mechanic_name =  "Jimmy"
 === inventor ===
 -> check_chloroformed(_inventor) ->
 -> check_groggy("Inventor",_inventor) ->
+-> check_eating(_inventor) ->
 {
  - panicked?_inventor:
    Inventor: {shuffle: Did you seriously think you could outwit me?|You'll hang for this.}
@@ -169,6 +200,7 @@ CONST mechanic_name =  "Jimmy"
    -> DONE
 }
 Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Trains are fascinating, aren't they?}
+ <- desert_option("Inventor",_inventor)
  * [Pick pockets]
    You pick the inventor's pockets and find the airship plans you came here for!
    ~ inventory += airship_plans
@@ -181,21 +213,25 @@ Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Tr
 
 === hunter ===
 -> check_chloroformed(_hunter) ->
+-> check_groggy("Hunter",_hunter) ->
+-> check_eating(_hunter) ->
 Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia is teeming with beautiful animals to shoot.}
 + You: Goodbye.
   -> main_loop
 = conversation
- + You: That's terrible!
++ You: That's terrible!
    Hunter: What are you talking about?
-   Hunter: If I don't kill the MegaRhinos then who will?
+   Hunter: If I don't kill the velociraptors then who will?
    ** You: Sorry, I thought you meant... never mind.
    -> main_loop
+-
 -> main_loop
 
 VAR magnate_stopped_train = false
 === magnate ===
 -> check_chloroformed(_magnate) ->
 -> check_groggy("Oil Magnate",_magnate) ->
+-> check_eating(_magnate) ->
 {
  - panicked?_magnate:
    Oil Magnate: I hope you can afford a good lawyer, criminal!
@@ -270,7 +306,7 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 -
 -> main_loop
 = alert_inventor
-{not (chloroformed?_inventor):
+{attentive()?_inventor:
   Inventor: I saw that! You maniac!
   ~ panicked += _inventor
 }
@@ -279,13 +315,21 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 === novelist ===
 -> check_chloroformed(_novelist) ->
 -> check_groggy("Novelist",_novelist) ->
+-> check_eating(_novelist) ->
 Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.|I should be writing right now.}
+<- desert_option("Novelist",_novelist)
++ [Goodbye.]
+-
 -> main_loop
+
+
 
 VAR made_bet = false
 VAR debt_payed = false
 === student ===
 -> check_chloroformed(_student) ->
+-> check_groggy("Student",_student) ->
+-> check_eating(_student) ->
 {
  - made_bet and not debt_payed:
    -> ask_about_money
@@ -353,12 +397,7 @@ Student: Do you have the money yet?
    Student: You'd better.
    -> main_loop
 
-=== check_chloroformed(character) ===
-{chloroformed?character:
-  It seems {name(character)} is unconscious.
-  -> main_loop
-}
-->->
+
 
 
 
