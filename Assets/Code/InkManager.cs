@@ -66,7 +66,11 @@ public class InkManager : MonoBehaviour
         if (inkStory.canContinue)
         {
             inkStory.Continue();
-            dialogueHistory += "\n" + ParseText(inkStory.currentText);
+            var text = inkStory.currentText.Trim('\r', '\n', ' ');
+            if (text.Length > 0)
+            {
+                dialogueHistory += "\n" + ParseText(text);
+            }
         }
 
         UpdateDialogueButtons();
