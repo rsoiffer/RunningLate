@@ -7,11 +7,15 @@
 {not safe_opened: 
  ~ return "Steal the airship plans."
 - else:
- ~ temp burn_objectives = listToStr(inventory ^ incriminating,"Burn the ",";",".")
- ~ temp chloro_objectives = listToStr(chloroformed,"Delay the train until ",";"," wakes up.")
- ~ temp sus_objectives = listToStr(panicked,"Chloroform ",";",".")
+ ~ temp objectives = ""
+ {made_bet and not debt_payed:
+  ~ objectives += "Pay the law student her winnings."
+ }
+ ~ objectives += ";" + listToStr(inventory ^ incriminating,"Burn the ",";",".")
+ ~ objectives += ";" + listToStr(chloroformed,"Delay the train until ",";"," wakes up.")
+ ~ objectives += ";" + listToStr(panicked,"Chloroform ",";",".")
  // TODO Also include list of suspicious people
- ~ return burn_objectives + ";" + chloro_objectives + ";" + sus_objectives
+ ~ return objectives
 }
  
 
