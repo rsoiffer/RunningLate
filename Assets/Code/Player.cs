@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Player : MonoBehaviour
 {
@@ -8,38 +9,50 @@ public class Player : MonoBehaviour
 
     public GameObject standSprite;
     public GameObject walkAnim;
+    private Camera mainCamera;
 
     private void Start()
     {
         myRigidbody = GetComponentInParent<Rigidbody2D>();
+        mainCamera = Camera.main;
     }
 
     private void FixedUpdate()
     {
         var goalMovement = Vector2.zero;
-        if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+        if (InkManager.Instance.currentKnot == null)
         {
-            goalMovement += Vector2.up;
-        }
+            if (Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.UpArrow))
+            {
+                goalMovement += Vector2.up;
+            }
 
-        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
-        {
-            goalMovement += Vector2.left;
-        }
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+            {
+                goalMovement += Vector2.left;
+            }
 
-        if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
-        {
-            goalMovement += Vector2.down;
-        }
+            if (Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.DownArrow))
+            {
+                goalMovement += Vector2.down;
+            }
 
-        if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
-        {
-            goalMovement += Vector2.right;
-        }
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+            {
+                goalMovement += Vector2.right;
+            }
 
-        if (goalMovement.magnitude > 1.0)
-        {
-            goalMovement = goalMovement.normalized;
+            if (goalMovement.magnitude <= 0.0
+                && Input.GetMouseButton(0)
+                && !EventSystem.current.IsPointerOverGameObject())
+            {
+                goalMovement = mainCamera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+            }
+
+            if (goalMovement.magnitude > 1.0)
+            {
+                goalMovement = goalMovement.normalized;
+            }
         }
 
         goalMovement *= walkSpeed;
