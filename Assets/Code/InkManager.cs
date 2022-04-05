@@ -2,6 +2,7 @@
 using Ink.Runtime;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class InkManager : MonoBehaviour
@@ -47,7 +48,10 @@ public class InkManager : MonoBehaviour
 
     private void Update()
     {
-        interactInput = interactInput || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E);
+        interactInput = interactInput
+                        || Input.GetKeyDown(KeyCode.Space)
+                        || Input.GetKeyDown(KeyCode.KeypadEnter)
+                        || Input.GetKeyDown(KeyCode.E);
         interactInputCooldown -= Time.deltaTime;
         if (interactInputCooldown > 0)
         {
@@ -106,6 +110,10 @@ public class InkManager : MonoBehaviour
         {
             var button = Instantiate(dialogueButtonPrefab, dialogueLayout);
             dialogueButtons.Add(button);
+            if (i == 0)
+            {
+                button.Select();
+            }
 
             var choiceIndex = i + 1;
             button.onClick.AddListener(() => nextChoice = choiceIndex);
@@ -154,37 +162,51 @@ public class InkManager : MonoBehaviour
                     ContinueAndLogDialogue();
                 }
             }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            else
             {
-                nextChoice = 1;
-            }
+                if (Input.GetKeyDown(KeyCode.Alpha1))
+                {
+                    nextChoice = 1;
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                nextChoice = 2;
-            }
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    nextChoice = 2;
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                nextChoice = 3;
-            }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    nextChoice = 3;
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha4))
-            {
-                nextChoice = 4;
-            }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    nextChoice = 4;
+                }
 
-            if (Input.GetKeyDown(KeyCode.Alpha5))
-            {
-                nextChoice = 5;
-            }
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    nextChoice = 5;
+                }
 
-            if (nextChoice > 0 && inkStory.currentChoices.Count >= nextChoice)
-            {
-                inkStory.ChooseChoiceIndex(nextChoice - 1);
-                nextChoice = 0;
-                ContinueAndLogDialogue();
+                if (interactInput && Input.GetKeyDown(KeyCode.E))
+                {
+                    interactInput = false;
+                    var focus = EventSystem.current.currentSelectedGameObject;
+                    Debug.Log(focus);
+                    var button = focus == null ? null : focus.GetComponent<Button>();
+                    if (button != null)
+                    {
+                        button.onClick.Invoke();
+                    }
+                }
+
+                if (nextChoice > 0 && inkStory.currentChoices.Count >= nextChoice)
+                {
+                    inkStory.ChooseChoiceIndex(nextChoice - 1);
+                    nextChoice = 0;
+                    ContinueAndLogDialogue();
+                }
             }
         }
 
