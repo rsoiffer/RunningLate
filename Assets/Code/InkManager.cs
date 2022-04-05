@@ -9,6 +9,7 @@ public class InkManager : MonoBehaviour
     public TextAsset inkAsset;
     public InteractableTracker interactableTracker;
     public Button dialogueButtonPrefab;
+    public float minContinueTime = 0.5f;
     public float timeToAutoContinue = 5f;
     public Button bottomPanelButton;
 
@@ -32,6 +33,7 @@ public class InkManager : MonoBehaviour
     private int nextChoice = -1;
     private float currentTimeToAutoContinue;
     private bool interactInput;
+    private float interactInputCooldown;
 
     private void Start()
     {
@@ -43,6 +45,12 @@ public class InkManager : MonoBehaviour
     private void Update()
     {
         interactInput = interactInput || Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.E);
+        interactInputCooldown -= Time.deltaTime;
+        if (interactInputCooldown > 0)
+        {
+            interactInput = false;
+        }
+
         currentTimeToAutoContinue -= Time.deltaTime;
         StepInk();
         UpdateText();
@@ -123,6 +131,7 @@ public class InkManager : MonoBehaviour
                 if (interactInput)
                 {
                     interactInput = false;
+                    interactInputCooldown = minContinueTime;
                     inkStory.ChoosePathString(interactable.name);
                     currentKnot = interactable.name;
                     dialogueHistory = "";
@@ -138,6 +147,7 @@ public class InkManager : MonoBehaviour
                 if (interactInput || currentTimeToAutoContinue < 0)
                 {
                     interactInput = false;
+                    interactInputCooldown = minContinueTime;
                     ContinueAndLogDialogue();
                 }
             }

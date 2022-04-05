@@ -1,6 +1,7 @@
 ﻿using System;
 using Ink.Runtime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InkApi
 {
@@ -27,6 +28,9 @@ public class InkApi
 
         inkStory.BindExternalFunction("trainIsMoving", () =>
             TrainTimer.Instance.timerPauseCountdown <= 0f);
+
+        inkStory.BindExternalFunction("restartGame", () =>
+            SceneManager.LoadScene("SampleScene"));
     }
 
     public string PrettyPrintInventory()
