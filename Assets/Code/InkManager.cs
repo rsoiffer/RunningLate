@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class InkManager : MonoBehaviour
 {
+    public static InkManager Instance;
+
     public TextAsset inkAsset;
     public InteractableTracker interactableTracker;
     public Button dialogueButtonPrefab;
@@ -27,7 +29,7 @@ public class InkManager : MonoBehaviour
     private Story inkStory;
     private InkApi inkApi;
 
-    private string currentKnot;
+    [HideInInspector] public string currentKnot;
     private string dialogueHistory;
     private List<Button> dialogueButtons = new List<Button>();
     private int nextChoice = -1;
@@ -37,6 +39,7 @@ public class InkManager : MonoBehaviour
 
     private void Start()
     {
+        Instance = this;
         inkStory = new Story(inkAsset.text);
         inkApi = new InkApi(inkStory);
         bottomPanelButton.onClick.AddListener(() => interactInput = true);

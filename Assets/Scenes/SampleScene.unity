@@ -1261,6 +1261,7 @@ MonoBehaviour:
   inkAsset: {fileID: 4900000, guid: 986221b461b0b6743b7668d0d66a7b1c, type: 3}
   interactableTracker: {fileID: 919029577}
   dialogueButtonPrefab: {fileID: 1455016844988266055, guid: 81e3dd81b8bfc894ab87bea0cab65587, type: 3}
+  minContinueTime: 0.5
   timeToAutoContinue: 5
   bottomPanelButton: {fileID: 514337582}
   objectivesPanel: {fileID: 1046944050}
@@ -1271,6 +1272,7 @@ MonoBehaviour:
   dialoguePanel: {fileID: 477678142}
   dialogueLayout: {fileID: 477678143}
   dialogueTextUI: {fileID: 108098981}
+  currentKnot: 
 --- !u!4 &226526618
 Transform:
   m_ObjectHideFlags: 0
