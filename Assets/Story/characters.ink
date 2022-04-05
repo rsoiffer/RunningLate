@@ -130,7 +130,7 @@ CONST mechanic_name =  "Jimmy"
     Mechanic: Oh dear. There is, isn't there.
     Mechanic: {trainIsMoving():STOP THE TRAIN.|We're gonna be delayed a while longer while we sort this out.}
     -> handle_accident ->
-  + You: Goodbye.
+  + [{exit}]
 -
 ->->
 = long_discussion
@@ -208,7 +208,7 @@ Inventor: {shuffle:Good day!|I hope you're enjoying the trip as much as I am!|Tr
    This must mean that {name(_inventor)} was attempting to frame you for stealing his own plans.
    It takes more than that to outsmart you, though!
    -> main_loop
- + You: Goodbye.
+ + [{exit}]
    -> main_loop
 
 === hunter ===
@@ -220,7 +220,7 @@ Hunter: {I hunt the most dangerous game of all.-> conversation|British Columbia 
    You pick {name(_hunter)}'s pockets and find a cigarette lighter.
    ~ inventory += lighter
    -> main_loop
-+ You: Goodbye.
++ [{exit}]
   -> main_loop
 = conversation
 + You: That's terrible!
@@ -246,14 +246,14 @@ VAR magnate_stopped_train = false
 Oil Magnate: {Do you know how wealthy I am? -> how_wealthy|{suspicious?_magnate:What do you want now?|Hello again!}}
  * {not magnate_stopped_train}I don't believe you're as wealthy as you say you are.
    -> challenge_him
- + [Goodbye.]
+ + [{exit}]
 -
 -> main_loop
 = how_wealthy
 * You: Why would I know that?
   Oil Magnate: I'm one of the wealthiest men in Canada!
   Oil Magnate: Anyone who's anyone knows who I am.
-  ** I don't believe it.
+  ** You: I don't believe it.
      -> challenge_him
 * You: I wouldn't flaunt my wealth if I were you.  There could be thieves around.
   Oil Magnate: I'm not worried about that.
@@ -330,7 +330,7 @@ Oil Magnate: {inventory has wallet:I already gave you my wallet, what more proof
 }
 Novelist: {shuffle:This train would be a great setting for a murder mystery.|The scenery here is beautiful.|I should be writing right now.}
 <- desert_option("Novelist",_novelist)
-+ [Goodbye.]
++ [{exit}]
 -
 -> main_loop
 
@@ -364,7 +364,7 @@ Student: {shuffle:I'm going to change the world some day!|I should be studying f
      //** You: A female lawyer? Seems unlikely.
      //   Student: What's wrong with you? It's 1932.
      //   Student: Women can be whatever they want to be.
- + [Goodbye.]
+ + [{exit}]
 -
 -> main_loop
 = make_bet
