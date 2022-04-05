@@ -126,10 +126,10 @@ VAR table_has_nanaimo_bar = true
 {table_has_nanaimo_bar:
 You see a tasty-looking Nanaimo bar on the table.
  + [Take it.]
-   You grab the Nanaimo bar.
+   ~changeVisualState("table","empty")
    ~inventory += nanaimo_bar
    ~table_has_nanaimo_bar = false
-   ~changeVisualState("table","empty")
+   You grab the Nanaimo bar.
    -> main_loop
  + [Leave it.]
    -> main_loop

@@ -9,7 +9,8 @@ CONST player_name = "Augustin du Pont"
 === prologue
 ~changeVisualState("fireplace","unlit") // Slight hack, sorry.
 You are {player_name}, the world-famous thief.
-In the winter of 1932 you find yourself traveling in luxury aboard <i>The Imperial Limited</i>, where proprietary plans for an innovative hydrogen airship are being transported to Vancouver under lock and key.
+You find yourself traveling in luxury aboard <i>The Imperial Limited</i> to Vancouver.
+Proprietary plans for an innovative hydrogen airship are being transported under lock and key aboard this very train.
 A secretive patron has promised to pay you handsomely for these plans.
 * [Continue...]
   -> main_loop
