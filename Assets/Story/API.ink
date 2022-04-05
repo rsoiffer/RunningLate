@@ -27,7 +27,7 @@
 }
 ~chloroformed -= npc 
 ~groggy += npc
-{npc_id==_guard:
+{npc_id == "guard":
   // I knew this inconsistency would come back to bite me.
   ~changeVisualState(npc_id,"visible")
 -else:

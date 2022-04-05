@@ -351,19 +351,15 @@ Student: {shuffle:I'm going to change the world some day!|I should be studying f
  * You: What do you study?
    Student: I'm studying law.
    Student: I've almost graduated, actually!
-   ** You: So you're going to be a lawyer?
-     Student: Yup!
-     Student: Well, assuming I pass the bar exam.  Fingers crossed.
-     *** You: I'm sure you'll do fine.
-        Student: Probably! I'm top of my class.
-        Student: I'm really good at lawyering.
-        Student: They say I could talk anyone into anything.
-        **** You: Oh, really?
-            -> make_bet
-     // Not sure about this one:
-     //** You: A female lawyer? Seems unlikely.
-     //   Student: What's wrong with you? It's 1932.
-     //   Student: Women can be whatever they want to be.
+   You: So you're going to be a lawyer?
+   Student: Yup!
+   Student: Well, assuming I pass the bar exam.  Fingers crossed.
+   You: I'm sure you'll do fine.
+   Student: Probably! I'm top of my class.
+   Student: I'm really good at lawyering.
+   Student: They say I could talk anyone into anything.
+   You: Oh, really?
+   -> make_bet
  + [{exit}]
 -
 -> main_loop
@@ -371,6 +367,9 @@ Student: {shuffle:I'm going to change the world some day!|I should be studying f
 You: I bet you couldn't convince the conductor to stop the train right now.
 Student: How much you wanna bet?
 * You: Let's say $200.
+* You: I wasn't proposing an actual bet.
+  Student: Oh. That's a shame.
+  -> main_loop
 -
 Student: You're on.
 * [Wimp out.]
@@ -386,16 +385,17 @@ Student: You're on.
   Conductor: By Jove, she's right!
   ~ delayTrain(60,"Conductor: Alright, that's that sorted.  Let's get going again.")
   Student: You owe me 200 bucks.
-  ** You: Really?
-  --
+  You: Really?
   Student: You entered a legally binding oral contract.
   ** {inventory has money}You: Ok, fine.
      ~ inventory -= money
      ~ debt_payed = true
      You hand over the money.
      Student: Pleasure doing business with you.
+     -> main_loop
   ** You: I'll get you the money before we arrive.
      Student: You will if you know what's good for you.
+     -> main_loop
 -
 -> main_loop
 = ask_about_money  
